@@ -448,39 +448,13 @@
         false
       )
       (ok false)
-      (begin
-        (try! (as-contract?
-          ((with-ft 'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token
-            "sbtc-token" earned
-          ))
-          (match l1-info
-            info (let (
-                (amount (- earned (get max-fee info)))
-                (withdrawal-request (try! (contract-call?
-                  'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-withdrawal
-                  initiate-withdrawal-request amount (get pox-addr info)
-                  (get max-fee info)
-                )))
-              )
-              (print {
-                topic: "claim-staker-rewards",
-                amount-sats: earned,
-                l1-withdrawal: (some (merge info {
-                  withdrawal-request: withdrawal-request,
-                  amount: amount,
-                })),
-                staker: staker,
-                reward-cycle: reward-cycle,
-                bond-index: bond-index,
-              })
-              (map-set withdrawal-requests withdrawal-request staker)
-              ;; `amount + max-fee` == `earned` left the balance into the
-              ;; sBTC withdrawal system; record it as staker liability.
-              (var-set withdrawal-liability
-                (+ (var-get withdrawal-liability) amount (get max-fee info))
-              )
-              true
-            )
+      (match l1-info
+        info (pay-staker-l1 staker earned reward-cycle bond-index info)
+        (begin
+          (try! (as-contract?
+            ((with-ft 'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token
+              "sbtc-token" earned
+            ))
             (begin
               (print {
                 topic: "claim-staker-rewards",
@@ -494,10 +468,65 @@
                 'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token transfer
                 earned tx-sender staker none
               ))
-            )
-          )))
-        (ok true)
+            )))
+          (ok true)
+        )
       )
+    )
+  )
+)
+
+;; Pay a staker who registered a pox-addr: their reward leaves as an L1 sBTC
+;; withdrawal rather than an sBTC transfer, so it cannot be batched with the
+;; others. Returns `(ok false)` when the fee budget exceeds the reward.
+(define-private (pay-staker-l1
+    (staker principal)
+    (earned uint)
+    (reward-cycle uint)
+    (bond-index (optional uint))
+    (l1-info {
+      pox-addr: {
+        version: (buff 1),
+        hashbytes: (buff 32),
+      },
+      max-fee: uint,
+    })
+  )
+  (if (< earned (get max-fee l1-info))
+    (ok false)
+    (begin
+      (try! (as-contract?
+        ((with-ft 'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token
+          "sbtc-token" earned
+        ))
+        (let (
+            (amount (- earned (get max-fee l1-info)))
+            (withdrawal-request (try! (contract-call?
+              'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-withdrawal
+              initiate-withdrawal-request amount (get pox-addr l1-info)
+              (get max-fee l1-info)
+            )))
+          )
+          (print {
+            topic: "claim-staker-rewards",
+            amount-sats: earned,
+            l1-withdrawal: (some (merge l1-info {
+              withdrawal-request: withdrawal-request,
+              amount: amount,
+            })),
+            staker: staker,
+            reward-cycle: reward-cycle,
+            bond-index: bond-index,
+          })
+          (map-set withdrawal-requests withdrawal-request staker)
+          ;; `amount + max-fee` == `earned` left the balance into the
+          ;; sBTC withdrawal system; record it as staker liability.
+          (var-set withdrawal-liability
+            (+ (var-get withdrawal-liability) amount (get max-fee l1-info))
+          )
+          true
+        )))
+      (ok true)
     )
   )
 )
@@ -698,6 +727,15 @@
       total-earned: uint,
       total-fees: uint,
       claimed-count: uint,
+      transfers: (list 100
+        {
+          amount: uint,
+          sender: principal,
+          to: principal,
+          memo: (optional (buff 34)),
+        }
+      ),
+      transfer-total: uint,
     }
       uint
     ))
@@ -716,23 +754,60 @@
         (> gross (get unclaimed state))
       )
       (ok state)
-      (if (try! (pay-staker staker earned reward-cycle none))
-        (begin
-          ;; Only advance the watermark once the payout actually happened.
-          (map-set staker-paid {
-            staker: staker,
-            reward-cycle: reward-cycle,
-          }
-            (get entitled rewards)
+      ;; Stakers taking sBTC are queued into a single `transfer-many` at the
+      ;; end of the batch; only L1 withdrawals still cost a call each.
+      (let ((queued (match (get-pox-addr staker)
+          info (if (try! (pay-staker-l1 staker earned reward-cycle none info))
+            u1
+            ;; L1 fee budget exceeds the reward: skip this staker.
+            u0
           )
-          (ok (merge state {
-            unclaimed: (- (get unclaimed state) gross),
-            total-earned: (+ (get total-earned state) earned),
-            total-fees: (+ (get total-fees state) fees),
-            claimed-count: (+ (get claimed-count state) u1),
-          }))
+          (begin
+            (print {
+              topic: "claim-staker-rewards",
+              amount-sats: earned,
+              l1-withdrawal: none,
+              staker: staker,
+              reward-cycle: reward-cycle,
+              bond-index: none,
+            })
+            u2
+          )
+        )))
+        (if (is-eq queued u0)
+          (ok state)
+          (begin
+            ;; Only advance the watermark once the payout is committed.
+            (map-set staker-paid {
+              staker: staker,
+              reward-cycle: reward-cycle,
+            }
+              (get entitled rewards)
+            )
+            (ok (merge state {
+              unclaimed: (- (get unclaimed state) gross),
+              total-earned: (+ (get total-earned state) earned),
+              total-fees: (+ (get total-fees state) fees),
+              claimed-count: (+ (get claimed-count state) u1),
+              transfers: (if (is-eq queued u2)
+                (unwrap-panic (as-max-len?
+                  (append (get transfers state) {
+                    amount: earned,
+                    sender: current-contract,
+                    to: staker,
+                    memo: none,
+                  })
+                  u100
+                ))
+                (get transfers state)
+              ),
+              transfer-total: (if (is-eq queued u2)
+                (+ (get transfer-total state) earned)
+                (get transfer-total state)
+              ),
+            }))
+          )
         )
-        (ok state)
       )
     )
   )
@@ -761,9 +836,23 @@
             total-earned: u0,
             total-fees: u0,
             claimed-count: u0,
+            transfers: (list),
+            transfer-total: u0,
           })
         )
       )))
+    )
+    ;; One sBTC call for every staker taking sBTC, instead of one each.
+    (if (> (get transfer-total summary) u0)
+      (try! (as-contract?
+        ((with-ft 'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token
+          "sbtc-token" (get transfer-total summary)
+        ))
+        (try! (contract-call? 'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token
+          transfer-many (get transfers summary)
+        ))
+      ))
+      u0
     )
     (map-set cycle-mode reward-cycle MODE_LOCAL)
     (var-set earned-fees (+ (var-get earned-fees) (get total-fees summary)))

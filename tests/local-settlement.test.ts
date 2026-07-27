@@ -14,12 +14,13 @@ import {
 
 const accounts = simnet.getAccounts();
 const deployer = accounts.get("deployer")!;
-const stakers = [
-  accounts.get("wallet_1")!,
-  accounts.get("wallet_2")!,
-  accounts.get("wallet_3")!,
+const stakers = [1, 2, 3, 4, 5, 6, 7, 8].map(
+  (i) => accounts.get(`wallet_${i}`)!,
+);
+const amounts = [
+  100_000_000_000, 300_000_000_000, 55_000_000_000, 70_000_000_000,
+  120_000_000_000, 90_000_000_000, 45_000_000_000, 210_000_000_000,
 ];
-const amounts = [100_000_000_000, 300_000_000_000, 55_000_000_000];
 const POT = 50_000_000;
 
 const readNum = (fn: string, args: any[]) =>
@@ -159,9 +160,9 @@ describe("locally-settled distribution", () => {
       [Cl.list(stakers.map((w) => Cl.principal(w))), Cl.uint(rewardCycle)],
       deployer,
     );
-    expect(stakers.map((w, i) => sbtcBalance(w) - before2[i])).toEqual([
-      0, 0, 0,
-    ]);
+    expect(stakers.map((w, i) => sbtcBalance(w) - before2[i])).toEqual(
+      stakers.map(() => 0),
+    );
   });
 
   // simnet resets between tests, so the two paths are measured in separate
