@@ -98,7 +98,7 @@ const localClaimable = (who: string, cycle: number) =>
       simnet.callReadOnlyFn(
         MANAGER,
         "get-local-staker-rewards",
-        [Cl.principal(who), Cl.uint(cycle)],
+        [Cl.principal(who), Cl.uint(cycle), Cl.none()],
         deployer,
       ).result as any
     ).value.claimable,
@@ -145,7 +145,11 @@ describe("locally-settled distribution", () => {
     const res = simnet.callPublicFn(
       MANAGER,
       "distribute-rewards-many",
-      [Cl.list(stakers.map((w) => Cl.principal(w))), Cl.uint(rewardCycle)],
+      [
+        Cl.list(stakers.map((w) => Cl.principal(w))),
+        Cl.uint(rewardCycle),
+        Cl.none(),
+      ],
       deployer,
     );
     expect(res.result.type).toBe("ok");
@@ -157,7 +161,11 @@ describe("locally-settled distribution", () => {
     simnet.callPublicFn(
       MANAGER,
       "distribute-rewards-many",
-      [Cl.list(stakers.map((w) => Cl.principal(w))), Cl.uint(rewardCycle)],
+      [
+        Cl.list(stakers.map((w) => Cl.principal(w))),
+        Cl.uint(rewardCycle),
+        Cl.none(),
+      ],
       deployer,
     );
     expect(stakers.map((w, i) => sbtcBalance(w) - before2[i])).toEqual(
@@ -175,7 +183,11 @@ describe("locally-settled distribution", () => {
     const r = simnet.callPublicFn(
       MANAGER,
       "distribute-rewards-many",
-      [Cl.list(stakers.map((w) => Cl.principal(w))), Cl.uint(rewardCycle)],
+      [
+        Cl.list(stakers.map((w) => Cl.principal(w))),
+        Cl.uint(rewardCycle),
+        Cl.none(),
+      ],
       deployer,
     );
     expect(r.result.type).toBe("ok");
@@ -213,13 +225,46 @@ describe("locally-settled distribution", () => {
     }
   });
 
+  it("bond distribution is a safe no-op with no bond stakes", () => {
+    const { rewardCycle } = setup();
+    pullPot(rewardCycle);
+    // Exercises the bond branch of the mirror check, which reads a different
+    // pox-5 map than STX staking does. With no bond registrations both sides
+    // are zero, so it agrees and pays nobody rather than erroring.
+    const res = simnet.callPublicFn(
+      MANAGER,
+      "distribute-rewards-many",
+      [
+        Cl.list(stakers.map((w) => Cl.principal(w))),
+        Cl.uint(rewardCycle),
+        Cl.some(Cl.uint(0)),
+      ],
+      deployer,
+    );
+    expect(res.result.type).toBe("ok");
+    expect(Number((res.result as any).value.value.claimed.value)).toBe(0);
+    // and the STX side of the same cycle is untouched by that lock
+    expect(
+      simnet.callPublicFn(
+        MANAGER,
+        "distribute-rewards-many",
+        [
+          Cl.list(stakers.map((w) => Cl.principal(w))),
+          Cl.uint(rewardCycle),
+          Cl.none(),
+        ],
+        deployer,
+      ).result.type,
+    ).toBe("ok");
+  });
+
   it("refuses to mix settlement paths for one cycle", () => {
     const { rewardCycle } = setup();
     pullPot(rewardCycle);
     simnet.callPublicFn(
       MANAGER,
       "distribute-rewards-many",
-      [Cl.list([Cl.principal(stakers[0])]), Cl.uint(rewardCycle)],
+      [Cl.list([Cl.principal(stakers[0])]), Cl.uint(rewardCycle), Cl.none()],
       deployer,
     );
     // pox-5 settlement for the same cycle would pay the same rewards twice
@@ -261,7 +306,11 @@ describe("locally-settled distribution", () => {
       simnet.callPublicFn(
         MANAGER,
         "distribute-rewards-many",
-        [Cl.list(stakers.map((w) => Cl.principal(w))), Cl.uint(rewardCycle)],
+        [
+        Cl.list(stakers.map((w) => Cl.principal(w))),
+        Cl.uint(rewardCycle),
+        Cl.none(),
+      ],
         deployer,
       ).result.type,
     ).toBe("ok");
@@ -286,6 +335,7 @@ describe("locally-settled distribution", () => {
       [
         Cl.list(stakers.map((w) => Cl.principal(w))),
         Cl.uint(rewardCycle + 2),
+        Cl.none(),
       ],
       deployer,
     );

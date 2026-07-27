@@ -158,7 +158,9 @@
 ;; signer-level total from pox-5 a sufficient integrity check: see
 ;; `assert-mirror-matches-pox-5`.
 ;;
-;; STX staking only (`bond-index none`). Bond cycles keep using the pox-5 path.
+;; Covers both STX staking (`bond-index none`) and bonds. The two differ in
+;; what pox-5 counts -- ustx against sats -- and in which signer-level total
+;; can be trusted as the check; see `assert-mirror-matches-pox-5`.
 
 ;; A staker's mirrored shares for a cycle. Mirrors pox-5's
 ;; `staker-shares-staked-for-cycle`, which is an absolute per-cycle amount.
@@ -166,6 +168,7 @@
   {
     staker: principal,
     reward-cycle: uint,
+    bond-index: (optional uint),
   }
   uint
 )
@@ -173,7 +176,10 @@
 ;; Sum of `mirrored-shares` over all stakers for a cycle. Our side of the
 ;; integrity check against pox-5.
 (define-map mirrored-total-shares
-  uint
+  {
+    reward-cycle: uint,
+    bond-index: (optional uint),
+  }
   uint
 )
 
@@ -181,7 +187,10 @@
 ;; A cycle can be claimed more than once as rewards accrue, so this
 ;; accumulates.
 (define-map cycle-rewards
-  uint
+  {
+    reward-cycle: uint,
+    bond-index: (optional uint),
+  }
   uint
 )
 
@@ -191,6 +200,7 @@
   {
     staker: principal,
     reward-cycle: uint,
+    bond-index: (optional uint),
   }
   uint
 )
@@ -202,13 +212,17 @@
 (define-constant MODE_LOCAL u2)
 
 (define-map cycle-mode
-  uint
+  {
+    reward-cycle: uint,
+    bond-index: (optional uint),
+  }
   uint
 )
 
 ;; Offsets used to walk the cycles a stake covers. pox-5 caps a lock at 12
-;; cycles (`check-pox-lock-period`).
+;; cycles (`check-pox-lock-period`) and a bond term is exactly that long.
 (define-constant CYCLE_OFFSETS (list u0 u1 u2 u3 u4 u5 u6 u7 u8 u9 u10 u11))
+(define-constant BOND_LENGTH_CYCLES u12)
 
 ;; Record a staker's shares for one cycle, keeping `mirrored-total-shares` in
 ;; step. pox-5 stores shares as an absolute per-cycle amount, so a re-stake
@@ -218,6 +232,7 @@
     (acc {
       staker: principal,
       first-reward-cycle: uint,
+      bond-index: (optional uint),
       shares: uint,
     })
   )
@@ -225,22 +240,35 @@
       (reward-cycle (+ (get first-reward-cycle acc) offset))
       (staker (get staker acc))
       (shares (get shares acc))
+      (bond-index (get bond-index acc))
       (previous (default-to u0
         (map-get? mirrored-shares {
           staker: staker,
           reward-cycle: reward-cycle,
+          bond-index: bond-index,
         })
       ))
-      (total (default-to u0 (map-get? mirrored-total-shares reward-cycle)))
+      (total (default-to u0
+        (map-get? mirrored-total-shares {
+          reward-cycle: reward-cycle,
+          bond-index: bond-index,
+        })
+      ))
     )
     (map-set mirrored-shares {
       staker: staker,
       reward-cycle: reward-cycle,
+      bond-index: bond-index,
     }
       shares
     )
     ;; `total` always includes `previous`, so this cannot underflow.
-    (map-set mirrored-total-shares reward-cycle (+ (- total previous) shares))
+    (map-set mirrored-total-shares {
+      reward-cycle: reward-cycle,
+      bond-index: bond-index,
+    }
+      (+ (- total previous) shares)
+    )
     acc
   )
 )
@@ -255,7 +283,6 @@
     (first-index uint)
     (num-indexes uint)
     (amount-ustx uint)
-    ;; #[allow(unused_binding)]
     (amount-sats uint)
     (is-bond bool)
     (signer-calldata (optional (buff 500)))
@@ -263,20 +290,31 @@
   (begin
     (try! (authorize-pox-5))
     ;; Mirror the shares this stake grants. For STX staking pox-5 passes the
-    ;; first reward cycle and a cycle count; for bonds `first-index` is a bond
-    ;; index instead, and those cycles stay on the pox-5 settlement path.
-    (if is-bond
-      true
-      (begin
-        (fold mirror-stake-for-cycle
-          (unwrap-panic (slice? CYCLE_OFFSETS u0 num-indexes)) {
-          staker: staker,
-          first-reward-cycle: first-index,
-          shares: amount-ustx,
-        })
-        true
-      )
-    )
+    ;; first reward cycle and a cycle count directly. For bonds `first-index` is
+    ;; a bond index instead: the term is always `BOND_LENGTH_CYCLES` long and
+    ;; its first cycle has to be derived, and the shares are denominated in sats.
+    (fold mirror-stake-for-cycle
+      (unwrap-panic (slice? CYCLE_OFFSETS u0
+        (if is-bond
+          BOND_LENGTH_CYCLES
+          num-indexes
+        ))) {
+      staker: staker,
+      first-reward-cycle: (if is-bond
+        (contract-call? 'ST000000000000000000002AMW42H.pox-5
+          bond-period-to-reward-cycle first-index
+        )
+        first-index
+      ),
+      bond-index: (if is-bond
+        (some first-index)
+        none
+      ),
+      shares: (if is-bond
+        amount-sats
+        amount-ustx
+      ),
+    })
     (ok (match signer-calldata
       calldata
       (let ((pox-addr (unwrap!
@@ -329,8 +367,17 @@
     ;; Track the STX-staking pot per cycle so a locally-settled distribution
     ;; has something to divide by shares. A cycle can be claimed repeatedly as
     ;; rewards accrue, so this accumulates.
-    (map-set cycle-rewards reward-cycle
-      (+ (default-to u0 (map-get? cycle-rewards reward-cycle))
+    (map-set cycle-rewards {
+      reward-cycle: reward-cycle,
+      bond-index: none,
+    }
+      (+
+        (default-to u0
+          (map-get? cycle-rewards {
+            reward-cycle: reward-cycle,
+            bond-index: none,
+          })
+        )
         (get earned (get stx-rewards result))
       ))
     (fold snapshot-bond-fee (get bond-rewards result) reward-cycle)
@@ -547,7 +594,7 @@
       (unclaimed-rewards (var-get unclaimed-staker-rewards))
       (claimed (unwrap!
         (try! (begin
-          (try! (lock-cycle-mode reward-cycle MODE_POX_5))
+          (try! (lock-cycle-mode reward-cycle bond-index MODE_POX_5))
           (claim-staker-rewards-core staker reward-cycle bond-index
             (get-fee-bips-for-cycle reward-cycle bond-index) unclaimed-rewards
             (has-sbtc-liquidity)
@@ -556,7 +603,12 @@
         ERR_NO_CLAIMABLE_REWARDS
       ))
     )
-    (map-set cycle-mode reward-cycle MODE_POX_5)
+    (map-set cycle-mode {
+      reward-cycle: reward-cycle,
+      bond-index: bond-index,
+    }
+      MODE_POX_5
+    )
     (var-set earned-fees (+ (var-get earned-fees) (get fees claimed)))
     ;; This staker's share is being distributed now so release it from
     ;; the unclaimed count recorded when `claim-rewards` pulled it in.
@@ -616,7 +668,7 @@
   (let (
       (unclaimed-rewards (var-get unclaimed-staker-rewards))
       (summary (try! (begin
-        (try! (lock-cycle-mode reward-cycle MODE_POX_5))
+        (try! (lock-cycle-mode reward-cycle bond-index MODE_POX_5))
         (fold fold-claim-staker-rewards stakers
           (ok {
             reward-cycle: reward-cycle,
@@ -631,7 +683,12 @@
         )
       )))
     )
-    (map-set cycle-mode reward-cycle MODE_POX_5)
+    (map-set cycle-mode {
+      reward-cycle: reward-cycle,
+      bond-index: bond-index,
+    }
+      MODE_POX_5
+    )
     (var-set earned-fees (+ (var-get earned-fees) (get total-fees summary)))
     (var-set unclaimed-staker-rewards (get unclaimed summary))
     (ok {
@@ -653,20 +710,33 @@
 (define-read-only (get-local-staker-rewards
     (staker principal)
     (reward-cycle uint)
+    (bond-index (optional uint))
   )
   (let (
-      (total-shares (default-to u0 (map-get? mirrored-total-shares reward-cycle)))
+      (total-shares (default-to u0
+        (map-get? mirrored-total-shares {
+          reward-cycle: reward-cycle,
+          bond-index: bond-index,
+        })
+      ))
       (shares (default-to u0
         (map-get? mirrored-shares {
           staker: staker,
           reward-cycle: reward-cycle,
+          bond-index: bond-index,
         })
       ))
-      (accrued (default-to u0 (map-get? cycle-rewards reward-cycle)))
+      (accrued (default-to u0
+        (map-get? cycle-rewards {
+          reward-cycle: reward-cycle,
+          bond-index: bond-index,
+        })
+      ))
       (already-paid (default-to u0
         (map-get? staker-paid {
           staker: staker,
           reward-cycle: reward-cycle,
+          bond-index: bond-index,
         })
       ))
       ;; Floor division; the remainder stays in the contract and is swept as
@@ -697,11 +767,33 @@
 ;;
 ;; Because pox-5 never calls back on unstake, the mirror can only ever be too
 ;; high, so equality here is enough to prove it is exact.
-(define-private (assert-mirror-matches-pox-5 (reward-cycle uint))
+(define-private (assert-mirror-matches-pox-5
+    (reward-cycle uint)
+    (bond-index (optional uint))
+  )
   (ok (asserts!
-    (is-eq (default-to u0 (map-get? mirrored-total-shares reward-cycle))
-      (contract-call? 'ST000000000000000000002AMW42H.pox-5
-        get-signer-pending-staked-ustx-per-cycle current-contract reward-cycle
+    (is-eq
+      (default-to u0
+        (map-get? mirrored-total-shares {
+          reward-cycle: reward-cycle,
+          bond-index: bond-index,
+        })
+      )
+      (match bond-index
+        ;; Bond shares are moved on every add and remove, so the signer-level
+        ;; total is the sum of its stakers' and compares directly.
+        index
+        (contract-call? 'ST000000000000000000002AMW42H.pox-5
+          get-signer-shares-staked-for-cycle current-contract reward-cycle
+          (some index)
+        )
+        ;; For STX staking that same map is only maintained once the signer is
+        ;; over `SIGNER_SET_MIN_USTX`, so below the threshold it is not a sum of
+        ;; its stakers. `signer-pending-staked-ustx-per-cycle` always is.
+        (contract-call? 'ST000000000000000000002AMW42H.pox-5
+          get-signer-pending-staked-ustx-per-cycle current-contract
+          reward-cycle
+        )
       ))
     ERR_SHARE_MIRROR_MISMATCH
   ))
@@ -710,9 +802,17 @@
 ;; Lock a cycle to one settlement path, rejecting the other from then on.
 (define-private (lock-cycle-mode
     (reward-cycle uint)
+    (bond-index (optional uint))
     (mode uint)
   )
-  (ok (asserts! (is-eq mode (default-to mode (map-get? cycle-mode reward-cycle)))
+  (ok (asserts!
+    (is-eq mode
+      (default-to mode
+        (map-get? cycle-mode {
+          reward-cycle: reward-cycle,
+          bond-index: bond-index,
+        })
+      ))
     ERR_CYCLE_MODE_LOCKED
   ))
 )
@@ -721,6 +821,7 @@
     (staker principal)
     (acc (response {
       reward-cycle: uint,
+      bond-index: (optional uint),
       fee-bips: uint,
       unclaimed: uint,
       has-liquidity: bool,
@@ -743,7 +844,8 @@
   (let (
       (state (try! acc))
       (reward-cycle (get reward-cycle state))
-      (rewards (get-local-staker-rewards staker reward-cycle))
+      (bond-index (get bond-index state))
+      (rewards (get-local-staker-rewards staker reward-cycle bond-index))
       (gross (get claimable rewards))
       (fees (/ (* gross (get fee-bips state)) MAX_BIPS))
       (earned (- gross fees))
@@ -757,7 +859,7 @@
       ;; Stakers taking sBTC are queued into a single `transfer-many` at the
       ;; end of the batch; only L1 withdrawals still cost a call each.
       (let ((queued (match (get-pox-addr staker)
-          info (if (try! (pay-staker-l1 staker earned reward-cycle none info))
+          info (if (try! (pay-staker-l1 staker earned reward-cycle bond-index info))
             u1
             ;; L1 fee budget exceeds the reward: skip this staker.
             u0
@@ -769,7 +871,7 @@
               l1-withdrawal: none,
               staker: staker,
               reward-cycle: reward-cycle,
-              bond-index: none,
+              bond-index: bond-index,
             })
             u2
           )
@@ -781,6 +883,7 @@
             (map-set staker-paid {
               staker: staker,
               reward-cycle: reward-cycle,
+              bond-index: bond-index,
             }
               (get entitled rewards)
             )
@@ -821,16 +924,18 @@
 (define-public (distribute-rewards-many
     (stakers (list 100 principal))
     (reward-cycle uint)
+    (bond-index (optional uint))
   )
   (let (
       (unclaimed-rewards (var-get unclaimed-staker-rewards))
       (summary (try! (begin
-        (try! (lock-cycle-mode reward-cycle MODE_LOCAL))
-        (try! (assert-mirror-matches-pox-5 reward-cycle))
+        (try! (lock-cycle-mode reward-cycle bond-index MODE_LOCAL))
+        (try! (assert-mirror-matches-pox-5 reward-cycle bond-index))
         (fold fold-distribute-rewards stakers
           (ok {
             reward-cycle: reward-cycle,
-            fee-bips: (get-fee-bips-for-cycle reward-cycle none),
+            bond-index: bond-index,
+            fee-bips: (get-fee-bips-for-cycle reward-cycle bond-index),
             unclaimed: unclaimed-rewards,
             has-liquidity: (has-sbtc-liquidity),
             total-earned: u0,
@@ -854,12 +959,18 @@
       ))
       u0
     )
-    (map-set cycle-mode reward-cycle MODE_LOCAL)
+    (map-set cycle-mode {
+      reward-cycle: reward-cycle,
+      bond-index: bond-index,
+    }
+      MODE_LOCAL
+    )
     (var-set earned-fees (+ (var-get earned-fees) (get total-fees summary)))
     (var-set unclaimed-staker-rewards (get unclaimed summary))
     (print {
       topic: "distribute-rewards-many",
       reward-cycle: reward-cycle,
+      bond-index: bond-index,
       claimed: (get claimed-count summary),
       total-earned: (get total-earned summary),
       total-fees: (get total-fees summary),
@@ -1147,7 +1258,6 @@
       earned: uint,
       rewards-per-token: uint,
     })
-    ;; #[allow(unused_binding)]
     (reward-cycle uint)
   )
   (begin
@@ -1157,6 +1267,20 @@
     }
       (var-get fees-bips)
     )
+    ;; Same per-cycle pot tracking as STX staking, but per bond.
+    (map-set cycle-rewards {
+      reward-cycle: reward-cycle,
+      bond-index: (some (get bond-index bond-info)),
+    }
+      (+
+        (default-to u0
+          (map-get? cycle-rewards {
+            reward-cycle: reward-cycle,
+            bond-index: (some (get bond-index bond-info)),
+          })
+        )
+        (get earned bond-info)
+      ))
     reward-cycle
   )
 )
