@@ -67,6 +67,11 @@
 ;; The withdrawal request has not been accepted, so it cannot be
 ;; settled via `settle-accepted-withdrawal`.
 (define-constant ERR_WITHDRAWAL_NOT_ACCEPTED (err u1011))
+;; The mirrored share total disagrees with pox-5's, so local settlement cannot
+;; be trusted for this cycle.
+(define-constant ERR_SHARE_MIRROR_MISMATCH (err u1012))
+;; This cycle has already been settled through the other path.
+(define-constant ERR_CYCLE_MODE_LOCKED (err u1013))
 
 (define-constant MAX_BIPS u10000)
 
@@ -137,6 +142,109 @@
 ;; admin can never sweep staker rewards.
 (define-data-var unclaimed-staker-rewards uint u0)
 
+;;; Local (mirrored) staker accounting
+;;
+;; Every `contract-call?` into pox-5 is charged pox-5's full ~135KB source as
+;; read_length, whatever the function does, so settling N stakers through
+;; `claim-staker-rewards-for-signer` costs N * 135KB and caps a distribution at
+;; roughly 700 stakers per block. That call moves no money -- `claim-rewards`
+;; already delivered the whole pot to this contract -- it only tells us each
+;; staker's share of it.
+;;
+;; So we keep that share ourselves. pox-5 calls `validate-stake!` on every path
+;; that *increases* a staker's shares, which is enough to mirror them. It never
+;; calls back on `unstake`, so the mirror can go stale -- but only ever by
+;; overcounting, since unseen changes are always decreases. That makes a single
+;; signer-level total from pox-5 a sufficient integrity check: see
+;; `assert-mirror-matches-pox-5`.
+;;
+;; STX staking only (`bond-index none`). Bond cycles keep using the pox-5 path.
+
+;; A staker's mirrored shares for a cycle. Mirrors pox-5's
+;; `staker-shares-staked-for-cycle`, which is an absolute per-cycle amount.
+(define-map mirrored-shares
+  {
+    staker: principal,
+    reward-cycle: uint,
+  }
+  uint
+)
+
+;; Sum of `mirrored-shares` over all stakers for a cycle. Our side of the
+;; integrity check against pox-5.
+(define-map mirrored-total-shares
+  uint
+  uint
+)
+
+;; Gross sBTC this contract has pulled in for a cycle via `claim-rewards`.
+;; A cycle can be claimed more than once as rewards accrue, so this
+;; accumulates.
+(define-map cycle-rewards
+  uint
+  uint
+)
+
+;; Gross already accounted to a staker for a cycle, so repeated distributions
+;; only pay the difference.
+(define-map staker-paid
+  {
+    staker: principal,
+    reward-cycle: uint,
+  }
+  uint
+)
+
+;; Which settlement path a cycle has used. The two must never mix: paying
+;; locally leaves pox-5's per-staker ledger un-zeroed, so a later pox-5-settled
+;; claim for the same cycle would pay the same rewards a second time.
+(define-constant MODE_POX_5 u1)
+(define-constant MODE_LOCAL u2)
+
+(define-map cycle-mode
+  uint
+  uint
+)
+
+;; Offsets used to walk the cycles a stake covers. pox-5 caps a lock at 12
+;; cycles (`check-pox-lock-period`).
+(define-constant CYCLE_OFFSETS (list u0 u1 u2 u3 u4 u5 u6 u7 u8 u9 u10 u11))
+
+;; Record a staker's shares for one cycle, keeping `mirrored-total-shares` in
+;; step. pox-5 stores shares as an absolute per-cycle amount, so a re-stake
+;; overwrites rather than adds, and the running total moves by the difference.
+(define-private (mirror-stake-for-cycle
+    (offset uint)
+    (acc {
+      staker: principal,
+      first-reward-cycle: uint,
+      shares: uint,
+    })
+  )
+  (let (
+      (reward-cycle (+ (get first-reward-cycle acc) offset))
+      (staker (get staker acc))
+      (shares (get shares acc))
+      (previous (default-to u0
+        (map-get? mirrored-shares {
+          staker: staker,
+          reward-cycle: reward-cycle,
+        })
+      ))
+      (total (default-to u0 (map-get? mirrored-total-shares reward-cycle)))
+    )
+    (map-set mirrored-shares {
+      staker: staker,
+      reward-cycle: reward-cycle,
+    }
+      shares
+    )
+    ;; `total` always includes `previous`, so this cannot underflow.
+    (map-set mirrored-total-shares reward-cycle (+ (- total previous) shares))
+    acc
+  )
+)
+
 ;; Callback function from a `stake` transaction.
 ;;
 ;; If `signer-calldata` is provided, then it must be in the form
@@ -144,20 +252,31 @@
 ;; is saved for the user, and they'll receive rewards through sBTC withdrawals.
 (define-public (validate-stake!
     (staker principal)
-    ;; #[allow(unused_binding)]
     (first-index uint)
-    ;; #[allow(unused_binding)]
     (num-indexes uint)
-    ;; #[allow(unused_binding)]
     (amount-ustx uint)
     ;; #[allow(unused_binding)]
     (amount-sats uint)
-    ;; #[allow(unused_binding)]
     (is-bond bool)
     (signer-calldata (optional (buff 500)))
   )
   (begin
     (try! (authorize-pox-5))
+    ;; Mirror the shares this stake grants. For STX staking pox-5 passes the
+    ;; first reward cycle and a cycle count; for bonds `first-index` is a bond
+    ;; index instead, and those cycles stay on the pox-5 settlement path.
+    (if is-bond
+      true
+      (begin
+        (fold mirror-stake-for-cycle
+          (unwrap-panic (slice? CYCLE_OFFSETS u0 num-indexes)) {
+          staker: staker,
+          first-reward-cycle: first-index,
+          shares: amount-ustx,
+        })
+        true
+      )
+    )
     (ok (match signer-calldata
       calldata
       (let ((pox-addr (unwrap!
@@ -207,6 +326,13 @@
     }
       (var-get fees-bips)
     )
+    ;; Track the STX-staking pot per cycle so a locally-settled distribution
+    ;; has something to divide by shares. A cycle can be claimed repeatedly as
+    ;; rewards accrue, so this accumulates.
+    (map-set cycle-rewards reward-cycle
+      (+ (default-to u0 (map-get? cycle-rewards reward-cycle))
+        (get earned (get stx-rewards result))
+      ))
     (fold snapshot-bond-fee (get bond-rewards result) reward-cycle)
     (ok result)
   )
@@ -289,71 +415,88 @@
         (> gross unclaimed)
       )
       (ok none)
-      ;; Only now is the staker's L1 info worth reading: a batch skips most
-      ;; stakers on the checks above without touching the `pox-addrs` map.
-      (let ((l1-info (get-pox-addr staker)))
-        ;; An L1 withdrawal whose reward does not cover its own fee budget is
-        ;; skipped too.
-        (if (match l1-info
-            info (< earned (get max-fee info))
-            false
-          )
-          (ok none)
-          (begin
-            (try! (as-contract?
-              ((with-ft 'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token
-                "sbtc-token" earned
+      (if (try! (pay-staker staker earned reward-cycle bond-index))
+        (ok (some {
+          gross: gross,
+          fees: fees,
+          earned: earned,
+        }))
+        ;; The staker's L1 fee budget exceeds their reward; nothing paid.
+        (ok none)
+      )
+    )
+  )
+)
+
+;; Send `earned` to a staker, either as sBTC or -- when they registered a
+;; pox-addr as staking calldata -- as an L1 sBTC withdrawal. Shared by both
+;; the pox-5-settled and the locally-settled claim paths.
+;;
+;; Returns `(ok false)` without paying when the staker's L1 withdrawal fee
+;; budget exceeds the reward, so a batch skips them instead of failing.
+(define-private (pay-staker
+    (staker principal)
+    (earned uint)
+    (reward-cycle uint)
+    (bond-index (optional uint))
+  )
+  ;; Only read the staker's L1 info once a payout is actually happening: a
+  ;; batch skips most stakers before this without touching the `pox-addrs` map.
+  (let ((l1-info (get-pox-addr staker)))
+    (if (match l1-info
+        info (< earned (get max-fee info))
+        false
+      )
+      (ok false)
+      (begin
+        (try! (as-contract?
+          ((with-ft 'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token
+            "sbtc-token" earned
+          ))
+          (match l1-info
+            info (let (
+                (amount (- earned (get max-fee info)))
+                (withdrawal-request (try! (contract-call?
+                  'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-withdrawal
+                  initiate-withdrawal-request amount (get pox-addr info)
+                  (get max-fee info)
+                )))
+              )
+              (print {
+                topic: "claim-staker-rewards",
+                amount-sats: earned,
+                l1-withdrawal: (some (merge info {
+                  withdrawal-request: withdrawal-request,
+                  amount: amount,
+                })),
+                staker: staker,
+                reward-cycle: reward-cycle,
+                bond-index: bond-index,
+              })
+              (map-set withdrawal-requests withdrawal-request staker)
+              ;; `amount + max-fee` == `earned` left the balance into the
+              ;; sBTC withdrawal system; record it as staker liability.
+              (var-set withdrawal-liability
+                (+ (var-get withdrawal-liability) amount (get max-fee info))
+              )
+              true
+            )
+            (begin
+              (print {
+                topic: "claim-staker-rewards",
+                amount-sats: earned,
+                l1-withdrawal: none,
+                staker: staker,
+                reward-cycle: reward-cycle,
+                bond-index: bond-index,
+              })
+              (try! (contract-call?
+                'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token transfer
+                earned tx-sender staker none
               ))
-              (match l1-info
-                info (let (
-                    (amount (- earned (get max-fee info)))
-                    (withdrawal-request (try! (contract-call?
-                      'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-withdrawal
-                      initiate-withdrawal-request amount (get pox-addr info)
-                      (get max-fee info)
-                    )))
-                  )
-                  (print {
-                    topic: "claim-staker-rewards",
-                    amount-sats: earned,
-                    l1-withdrawal: (some (merge info {
-                      withdrawal-request: withdrawal-request,
-                      amount: amount,
-                    })),
-                    staker: staker,
-                    reward-cycle: reward-cycle,
-                    bond-index: bond-index,
-                  })
-                  (map-set withdrawal-requests withdrawal-request staker)
-                  ;; `amount + max-fee` == `earned` left the balance into the
-                  ;; sBTC withdrawal system; record it as staker liability.
-                  (var-set withdrawal-liability
-                    (+ (var-get withdrawal-liability) amount (get max-fee info))
-                  )
-                  true
-                )
-                (begin
-                  (print {
-                    topic: "claim-staker-rewards",
-                    amount-sats: earned,
-                    l1-withdrawal: none,
-                    staker: staker,
-                    reward-cycle: reward-cycle,
-                    bond-index: bond-index,
-                  })
-                  (try! (contract-call?
-                    'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token
-                    transfer earned tx-sender staker none
-                  ))
-                )
-              )))
-            (ok (some {
-              gross: gross,
-              fees: fees,
-              earned: earned,
-            }))
-          )
-        )
+            )
+          )))
+        (ok true)
       )
     )
   )
@@ -374,13 +517,17 @@
   (let (
       (unclaimed-rewards (var-get unclaimed-staker-rewards))
       (claimed (unwrap!
-        (try! (claim-staker-rewards-core staker reward-cycle bond-index
-          (get-fee-bips-for-cycle reward-cycle bond-index) unclaimed-rewards
-          (has-sbtc-liquidity)
+        (try! (begin
+          (try! (lock-cycle-mode reward-cycle MODE_POX_5))
+          (claim-staker-rewards-core staker reward-cycle bond-index
+            (get-fee-bips-for-cycle reward-cycle bond-index) unclaimed-rewards
+            (has-sbtc-liquidity)
+          )
         ))
         ERR_NO_CLAIMABLE_REWARDS
       ))
     )
+    (map-set cycle-mode reward-cycle MODE_POX_5)
     (var-set earned-fees (+ (var-get earned-fees) (get fees claimed)))
     ;; This staker's share is being distributed now so release it from
     ;; the unclaimed count recorded when `claim-rewards` pulled it in.
@@ -439,21 +586,195 @@
   )
   (let (
       (unclaimed-rewards (var-get unclaimed-staker-rewards))
-      (summary (try! (fold fold-claim-staker-rewards stakers
-        (ok {
-          reward-cycle: reward-cycle,
-          bond-index: bond-index,
-          fee-bips: (get-fee-bips-for-cycle reward-cycle bond-index),
-          unclaimed: unclaimed-rewards,
-          has-liquidity: (has-sbtc-liquidity),
-          total-earned: u0,
-          total-fees: u0,
-          claimed-count: u0,
-        })
+      (summary (try! (begin
+        (try! (lock-cycle-mode reward-cycle MODE_POX_5))
+        (fold fold-claim-staker-rewards stakers
+          (ok {
+            reward-cycle: reward-cycle,
+            bond-index: bond-index,
+            fee-bips: (get-fee-bips-for-cycle reward-cycle bond-index),
+            unclaimed: unclaimed-rewards,
+            has-liquidity: (has-sbtc-liquidity),
+            total-earned: u0,
+            total-fees: u0,
+            claimed-count: u0,
+          })
+        )
       )))
     )
+    (map-set cycle-mode reward-cycle MODE_POX_5)
     (var-set earned-fees (+ (var-get earned-fees) (get total-fees summary)))
     (var-set unclaimed-staker-rewards (get unclaimed summary))
+    (ok {
+      claimed: (get claimed-count summary),
+      total-earned: (get total-earned summary),
+      total-fees: (get total-fees summary),
+    })
+  )
+)
+
+;;; Locally-settled distribution
+;;
+;; The same payouts as `claim-staker-rewards-many`, but each staker's share is
+;; computed from this contract's own mirror instead of from a pox-5 call. That
+;; takes the per-staker cost off pox-5's ~135KB-per-call contract load, which is
+;; ~99.7% of what a claim costs today.
+
+;; Read-only view of what a staker is owed for a cycle under local settlement.
+(define-read-only (get-local-staker-rewards
+    (staker principal)
+    (reward-cycle uint)
+  )
+  (let (
+      (total-shares (default-to u0 (map-get? mirrored-total-shares reward-cycle)))
+      (shares (default-to u0
+        (map-get? mirrored-shares {
+          staker: staker,
+          reward-cycle: reward-cycle,
+        })
+      ))
+      (accrued (default-to u0 (map-get? cycle-rewards reward-cycle)))
+      (already-paid (default-to u0
+        (map-get? staker-paid {
+          staker: staker,
+          reward-cycle: reward-cycle,
+        })
+      ))
+      ;; Floor division; the remainder stays in the contract and is swept as
+      ;; dust, exactly as with pox-5-settled claims.
+      (entitled (if (is-eq total-shares u0)
+        u0
+        (/ (* accrued shares) total-shares)
+      ))
+    )
+    {
+      entitled: entitled,
+      already-paid: already-paid,
+      claimable: (if (> entitled already-paid)
+        (- entitled already-paid)
+        u0
+      ),
+    }
+  )
+)
+
+;; The one pox-5 call a local distribution makes.
+;;
+;; `signer-pending-staked-ustx-per-cycle` is the sum of this signer's stakers'
+;; shares for the cycle: pox-5 moves it by the same amount as
+;; `staker-shares-staked-for-cycle` on both the add and the remove path. (Its
+;; sibling `signer-shares-staked-for-cycle` is NOT usable here -- pox-5 only
+;; maintains that once the signer is over `SIGNER_SET_MIN_USTX`.)
+;;
+;; Because pox-5 never calls back on unstake, the mirror can only ever be too
+;; high, so equality here is enough to prove it is exact.
+(define-private (assert-mirror-matches-pox-5 (reward-cycle uint))
+  (ok (asserts!
+    (is-eq (default-to u0 (map-get? mirrored-total-shares reward-cycle))
+      (contract-call? 'ST000000000000000000002AMW42H.pox-5
+        get-signer-pending-staked-ustx-per-cycle current-contract reward-cycle
+      ))
+    ERR_SHARE_MIRROR_MISMATCH
+  ))
+)
+
+;; Lock a cycle to one settlement path, rejecting the other from then on.
+(define-private (lock-cycle-mode
+    (reward-cycle uint)
+    (mode uint)
+  )
+  (ok (asserts! (is-eq mode (default-to mode (map-get? cycle-mode reward-cycle)))
+    ERR_CYCLE_MODE_LOCKED
+  ))
+)
+
+(define-private (fold-distribute-rewards
+    (staker principal)
+    (acc (response {
+      reward-cycle: uint,
+      fee-bips: uint,
+      unclaimed: uint,
+      has-liquidity: bool,
+      total-earned: uint,
+      total-fees: uint,
+      claimed-count: uint,
+    }
+      uint
+    ))
+  )
+  (let (
+      (state (try! acc))
+      (reward-cycle (get reward-cycle state))
+      (rewards (get-local-staker-rewards staker reward-cycle))
+      (gross (get claimable rewards))
+      (fees (/ (* gross (get fee-bips state)) MAX_BIPS))
+      (earned (- gross fees))
+    )
+    (if (or
+        (is-eq earned u0)
+        (not (get has-liquidity state))
+        (> gross (get unclaimed state))
+      )
+      (ok state)
+      (if (try! (pay-staker staker earned reward-cycle none))
+        (begin
+          ;; Only advance the watermark once the payout actually happened.
+          (map-set staker-paid {
+            staker: staker,
+            reward-cycle: reward-cycle,
+          }
+            (get entitled rewards)
+          )
+          (ok (merge state {
+            unclaimed: (- (get unclaimed state) gross),
+            total-earned: (+ (get total-earned state) earned),
+            total-fees: (+ (get total-fees state) fees),
+            claimed-count: (+ (get claimed-count state) u1),
+          }))
+        )
+        (ok state)
+      )
+    )
+  )
+)
+
+;; Distribute a cycle's rewards to many stakers without settling any of them
+;; through pox-5. Costs one pox-5 call for the whole batch instead of one per
+;; staker.
+;;
+;; STX staking only; bond rewards keep using `claim-staker-rewards-many`.
+(define-public (distribute-rewards-many
+    (stakers (list 100 principal))
+    (reward-cycle uint)
+  )
+  (let (
+      (unclaimed-rewards (var-get unclaimed-staker-rewards))
+      (summary (try! (begin
+        (try! (lock-cycle-mode reward-cycle MODE_LOCAL))
+        (try! (assert-mirror-matches-pox-5 reward-cycle))
+        (fold fold-distribute-rewards stakers
+          (ok {
+            reward-cycle: reward-cycle,
+            fee-bips: (get-fee-bips-for-cycle reward-cycle none),
+            unclaimed: unclaimed-rewards,
+            has-liquidity: (has-sbtc-liquidity),
+            total-earned: u0,
+            total-fees: u0,
+            claimed-count: u0,
+          })
+        )
+      )))
+    )
+    (map-set cycle-mode reward-cycle MODE_LOCAL)
+    (var-set earned-fees (+ (var-get earned-fees) (get total-fees summary)))
+    (var-set unclaimed-staker-rewards (get unclaimed summary))
+    (print {
+      topic: "distribute-rewards-many",
+      reward-cycle: reward-cycle,
+      claimed: (get claimed-count summary),
+      total-earned: (get total-earned summary),
+      total-fees: (get total-fees summary),
+    })
     (ok {
       claimed: (get claimed-count summary),
       total-earned: (get total-earned summary),
@@ -475,8 +796,7 @@
     (bond-index (optional uint))
     (swapper <swapper-trait>)
   )
-  (let ((claim-result (claim-staker-rewards staker reward-cycle bond-index))
-    )
+  (let ((claim-result (claim-staker-rewards staker reward-cycle bond-index)))
     (asserts! (is-ok claim-result) claim-result)
     (asserts! (is-eq contract-caller staker) ERR_UNAUTHORIZED_CALLER)
     (contract-call? swapper swap (unwrap-panic claim-result))
