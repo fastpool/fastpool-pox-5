@@ -1,32 +1,4 @@
 ;; title: fastpool-signer-manager
-;; version:
-;; summary:
-;; description:
-
-;; traits
-;;
-
-;; token definitions
-;;
-
-;; constants
-;;
-
-;; data vars
-;;
-
-;; data maps
-;;
-
-;; public functions
-;;
-
-;; read only functions
-;;
-
-;; private functions
-;;
-
 ;; Reference implementation for the signer manager trait, to be used with pox-5.
 ;;
 ;; This contract allows stakers to set a `pox-addr` that, when present, allows

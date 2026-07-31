@@ -1,0 +1,17 @@
+id: 0
+name: Mainnet deployment
+network: mainnet
+stacks-node: https://api.hiro.so
+bitcoin-node: http://blockstack:blockstacksystem@bitcoin.blockstack.com:8332
+plan:
+  batches:
+  - id: 0
+    transactions:
+    - transaction-type: contract-publish
+      contract-name: fastpool-max500-signer-manager
+      expected-sender: SPMPMA1V6P430M8C91QS1G9XJ95S59JS1TZFZ4Q4
+      cost: 40900
+      path: contracts/signer-manager.clar
+      anchor-block-only: true
+      clarity-version: 6
+    epoch: '4.0'

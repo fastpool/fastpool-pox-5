@@ -1,0 +1,33 @@
+# Testnet deployment plan for the private Hiro node (chain id 256).
+#
+# NOTE: descriptive, not directly appliable.
+#   - `clarinet deployments apply` hard-codes the testnet chain id (2147483648),
+#     which this node rejects with a SignatureValidation "invalid chain ID".
+#   - `clarinet deployments generate --testnet` panics resolving the mainnet sBTC
+#     requirements (SM3VDXK3….sbtc-registry) against this node.
+# Deploy with ./scripts/deploy-testnet.sh (scripts/deploy.mjs) instead: it signs
+# with chainId 256 and remaps the mainnet sBTC principals to the node's sBTC.
+id: 0
+name: Testnet deployment
+network: testnet
+stacks-node: https://api.private-1.hiro.so
+bitcoin-node: http://blockstack:blockstacksystem@bitcoind.testnet.stacks.co:18332
+plan:
+  batches:
+  - id: 0
+    transactions:
+    - transaction-type: contract-publish
+      contract-name: signer-manager
+      expected-sender: STF0E9KBT6XESBK0A81MWZWGH5ZJ49H4Q2A5Q6CY
+      cost: 23719
+      path: contracts/signer-manager.clar
+      anchor-block-only: true
+      clarity-version: 6
+    - transaction-type: contract-publish
+      contract-name: fastpool-signer-manager
+      expected-sender: STF0E9KBT6XESBK0A81MWZWGH5ZJ49H4Q2A5Q6CY
+      cost: 43250
+      path: contracts/fastpool-signer-manager.clar
+      anchor-block-only: true
+      clarity-version: 6
+    epoch: '4.0'

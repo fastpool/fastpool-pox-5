@@ -77,8 +77,13 @@ plan:
   - id: 1
     transactions:
     - transaction-type: emulated-contract-publish
+      contract-name: fastpool-1-signer-manager
+      emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+      path: contracts/signer-manager.clar
+      clarity-version: 6
+    - transaction-type: emulated-contract-publish
       contract-name: fastpool-signer-manager
       emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-      path: contracts/fastpool-signer-manager.clar
+      path: contracts/signer-manager-accounting-multi.clar
       clarity-version: 6
     epoch: '4.0'

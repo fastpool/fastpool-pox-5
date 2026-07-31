@@ -25,7 +25,8 @@ export const MANAGER = "fastpool-signer-manager";
 const SIGNER_PRIVKEY =
   "010101010101010101010101010101010101010101010101010101010101010101";
 
-export const managerPrincipal = (deployer: string) => `${deployer}.${MANAGER}`;
+export const managerPrincipal = (deployer: string, manager: string = MANAGER) =>
+  `${deployer}.${manager}`;
 
 export function expectOk(cv: ClarityValue, label: string) {
   if (cv.type === "err") {
@@ -35,14 +36,18 @@ export function expectOk(cv: ClarityValue, label: string) {
 }
 
 /** Register the manager contract as a pox-5 signer. */
-export function registerSigner(deployer: string) {
+export function registerSigner(
+  deployer: string,
+  manager: string = MANAGER,
+  pox5: string = POX5,
+) {
   const signerKey = privateKeyToPublic(SIGNER_PRIVKEY);
   const authId = 1;
 
   const hashCv = simnet.callReadOnlyFn(
-    POX5,
+    pox5,
     "get-signer-grant-message-hash",
-    [Cl.principal(managerPrincipal(deployer)), Cl.uint(authId)],
+    [Cl.principal(managerPrincipal(deployer, manager)), Cl.uint(authId)],
     deployer,
   ).result;
   const raw = (hashCv as any).value;
@@ -51,10 +56,10 @@ export function registerSigner(deployer: string) {
   const sig = signMessageHashRsv({ messageHash, privateKey: SIGNER_PRIVKEY });
 
   const res = simnet.callPublicFn(
-    MANAGER,
+    manager,
     "register-self",
     [
-      Cl.principal(managerPrincipal(deployer)),
+      Cl.principal(managerPrincipal(deployer, manager)),
       Cl.bufferFromHex(signerKey),
       Cl.uint(authId),
       Cl.bufferFromHex(sig),
@@ -65,19 +70,23 @@ export function registerSigner(deployer: string) {
 }
 
 /** Move sBTC into pox-5; this is what `get-rewards` sees as the reward pot. */
-export function fundRewards(from: string, amount: number) {
+export function fundRewards(
+  from: string,
+  amount: number,
+  pox5: string = POX5,
+) {
   return simnet.callPublicFn(
     `${SBTC}.sbtc-token`,
     "transfer",
-    [Cl.uint(amount), Cl.principal(from), Cl.principal(POX5), Cl.none()],
+    [Cl.uint(amount), Cl.principal(from), Cl.principal(pox5), Cl.none()],
     from,
   );
 }
 
 export const num = (cv: ClarityValue) => Number(cvToValue(cv, true));
 
-export function currentCycle(sender: string): number {
+export function currentCycle(sender: string, pox5: string = POX5): number {
   return num(
-    simnet.callReadOnlyFn(POX5, "current-pox-reward-cycle", [], sender).result,
+    simnet.callReadOnlyFn(pox5, "current-pox-reward-cycle", [], sender).result,
   );
 }

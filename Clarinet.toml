@@ -1,6 +1,6 @@
 [project]
 name = "fastpool-pox-5"
-description = ""
+description = "FAST Pool signer manager for pox-5 (STX-only stacking)"
 authors = []
 telemetry = false
 cache_dir = "./.cache"
@@ -13,9 +13,12 @@ requirements = [
     {contract_id = 'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-deposit'}
 ]
 
-# [contracts.counter]
-# path = "contracts/counter.clar"
-# epoch = "latest"
+# `fastpool-signer-manager` targets the CANONICAL pox-5 (per-staker reward model:
+# read-only `get-earned-staker-rewards`, `claim-staker-rewards-for-signer`).
+# Clarinet ships a divergent boot pox-5 (signer-pot model) that the contract does
+# not type-check against, so the canonical source is vendored and overridden here.
+[project.override_boot_contracts_source]
+pox-5 = "./boot/pox-5.clar"
 
 # Check-checker settings:
 # trusted_sender: if true, inputs are trusted after tx_sender has been checked.
@@ -31,7 +34,14 @@ check_checker = { trusted_sender = false, trusted_caller = false, callee_filter 
 
 [contracts]
 
+# The plain STX-only signer manager (no bonds, no batching): the baseline the
+# optimized `fastpool-signer-manager` below is measured against.
+[contracts.fastpool-1-signer-manager]
+path = "contracts/signer-manager.clar"
+clarity_version = 6
+epoch = "4.0"
+
 [contracts.fastpool-signer-manager]
-path = "contracts/fastpool-signer-manager.clar"
+path = "contracts/signer-manager-accounting-multi.clar"
 clarity_version = 6
 epoch = "4.0"
