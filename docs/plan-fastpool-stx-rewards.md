@@ -302,6 +302,45 @@ Splitting an order across the two is often better than routing all of it to
 whichever quotes best at zero size — which is exactly what the multi-leg design
 in §9 is for.
 
+### Jing's Juice batch auction: a second swap shape
+
+Juice is neither an AMM nor an RFQ. Makers escrow inventory at a limit price
+during a deposit window; the cycle clears against a Pyth reference price. A
+taker's `swap` is **atomic and fill-or-kill** -- it clears inside the limit in
+one transaction or reverts whole -- so unlike the RFQ it *can* be an adapter.
+
+One thing does not fit: it settles against a Pyth feed refreshed in the same
+call, so it takes a `(buff 8192)` VAA that only the keeper can fetch. That
+payload has no place in `dex-adapter-trait`.
+
+Rather than widen the AMM trait with a buffer every other adapter would ignore,
+there is a second trait and a second entry point:
+
+```clarity
+(define-trait dex-adapter-proof-trait (
+  (swap-sbtc-to-stx-with-proof (uint uint (buff 8192)) (response uint uint))))
+```
+
+`swap-rewards-with-proof` is identical to `swap-rewards` in every respect that
+matters -- same operator gate, same allowlist, same `as-contract?` allowance,
+same balance-delta accounting, same settlement bookkeeping, legs from both
+accumulate into the same cycle record. The shared logic lives in two private
+helpers so the two entry points cannot drift apart. The `proof` is opaque and
+forwarded without inspection: it is the venue's input, not this contract's.
+
+**One allowance had to be widened.** Refreshing the Pyth feed costs a fee in
+STX -- 10 micro-STX today. The proof path therefore grants the adapter a bounded
+`PROOF_FEE_BUDGET` of STX alongside the sBTC. That is a real, if tiny, loosening
+of the "no STX can leave" property the plain path has: an allowlisted adapter
+could burn up to that budget per call. It is bounded, which is what matters, and
+the balance-delta accounting correctly sees the fee as a cost of the swap rather
+than as lost principal. Discovered by reading the authors' own vault, which
+grants exactly the same thing.
+
+The adapter itself is in `contracts/pending/`, not the build, because the market
+is not deployed -- see that directory's README for what was and was not
+verified.
+
 ### Native STX, confirmed
 
 Both routers denominate STX as `SM1793C4R5PZ4NS4VQ4WMP7SKKYVH8JZEWSZ9HCCR.token-stx-v-1-2`.
@@ -778,6 +817,8 @@ repair-mirror-many         (stackers, reward-cycle)                  ;; anyone
 pin-shares                 (reward-cycle)                            ;; anyone
 swap-rewards               (reward-cycle, adapter, oracle,
                             amount-sats, min-stx-out)                ;; operator
+swap-rewards-with-proof    (reward-cycle, adapter, oracle,
+                            amount-sats, min-stx-out, proof)         ;; operator
 distribute-rewards         (stacker, reward-cycle)                   ;; anyone
 distribute-rewards-many    (stackers, reward-cycle)                  ;; anyone
 

@@ -33,3 +33,21 @@
     (response uint uint)
   )
 ))
+
+;; The same swap, for a venue that settles against an off-chain price
+;; attestation supplied in the transaction.
+;;
+;; Jing's Juice batch auction is the case: its taker `swap` refreshes a Pyth
+;; feed in the same call, so it needs a VAA the keeper fetches off chain. That
+;; payload is opaque to the signer manager, which forwards it without
+;; inspecting it -- it is the venue's input, not the manager's.
+;;
+;; A separate trait rather than a wider `dex-adapter-trait` so that AMM
+;; adapters, which have no use for a buffer, keep the narrower signature.
+(define-trait dex-adapter-proof-trait (
+  ;; (amount-sats, min-stx-out, proof) -> micro-STX delivered to tx-sender
+  (swap-sbtc-to-stx-with-proof
+    (uint uint (buff 8192))
+    (response uint uint)
+  )
+))

@@ -222,6 +222,10 @@ REWARD_CYCLE=<n> node scripts/stx-rewards.mjs distribute
   but the Velar contract could not be identified from chain data, so no adapter
   was written. Adding one is a self-contained ~30-line contract once the
   router's principal and ABI are confirmed.
+- **Jing's Juice auction adapter is written but not built.** It lives in
+  `contracts/pending/` because the market is not deployed yet, so it has never
+  been type-checked. The manager side it plugs into (`swap-rewards-with-proof`)
+  IS built and tested. See `contracts/pending/README.md` to promote it.
 - **Jing's RFQ is not a swap venue here, and cannot be.** A contract cannot be
   an RFQ client: `fix-price` requires a signature that recovers to the client
   principal, and a contract has no key. Its `get-native-price` is used as the

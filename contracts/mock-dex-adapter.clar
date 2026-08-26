@@ -14,6 +14,11 @@
 ;; straight back to that same principal.
 
 (impl-trait .dex-traits.dex-adapter-trait)
+;; The same mock also stands in for a proof-carrying venue, so the two swap
+;; entry points can be tested against identical pricing and identical failure
+;; modes -- any difference in a test is then a difference in the manager, not
+;; in the stub.
+(impl-trait .dex-traits.dex-adapter-proof-trait)
 
 (define-constant ERR_UNAUTHORIZED (err u3001))
 (define-constant ERR_MODE_REVERT (err u3002))
@@ -33,6 +38,10 @@
 ;; Micro-STX delivered per satoshi, scaled by SCALE.
 (define-data-var rate-scaled uint u0)
 (define-data-var mode uint MODE_NORMAL)
+
+;; The last proof this adapter was handed, so a test can prove the manager
+;; forwards the payload through untouched rather than dropping or mangling it.
+(define-data-var last-proof (buff 8192) 0x)
 
 (define-public (swap-sbtc-to-stx
     (amount-sats uint)
@@ -75,6 +84,23 @@
       (ok delivered)
     )
   )
+)
+
+;; The proof-carrying entry point. Records the payload, then does exactly what
+;; the plain path does -- pricing, modes and all.
+(define-public (swap-sbtc-to-stx-with-proof
+    (amount-sats uint)
+    (min-stx-out uint)
+    (proof (buff 8192))
+  )
+  (begin
+    (var-set last-proof proof)
+    (swap-sbtc-to-stx amount-sats min-stx-out)
+  )
+)
+
+(define-read-only (get-last-proof)
+  (var-get last-proof)
 )
 
 ;; Give the pool STX to sell.

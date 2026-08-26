@@ -26,6 +26,7 @@
 (impl-trait 'ST000000000000000000002AMW42H.pox-5.signer-manager-trait)
 (use-trait signer-manager-trait 'ST000000000000000000002AMW42H.pox-5.signer-manager-trait)
 (use-trait dex-adapter-trait .dex-traits.dex-adapter-trait)
+(use-trait dex-adapter-proof-trait .dex-traits.dex-adapter-proof-trait)
 (use-trait price-oracle-trait .dex-traits.price-oracle-trait)
 
 ;;; Errors
@@ -86,6 +87,18 @@
 ;; actual wall-clock drifts with real block times, and the contract only ever
 ;; reasons in burn blocks.
 (define-constant SWAP_WINDOW_BURN_BLOCKS u432)
+
+;; A venue that refreshes an on-chain price feed mid-swap pays a fee for it in
+;; STX -- Pyth's is 10 micro-STX today. `swap-rewards-with-proof` therefore
+;; grants the adapter a tiny STX allowance on top of the sBTC one, or the
+;; refresh fails and the whole swap with it.
+;;
+;; Deliberately loose: at this size the amount is economically irrelevant even
+;; if an allowlisted adapter were malicious, while a budget set too tight
+;; breaks every swap the day a venue's fee ticks up. It is bounded, which is
+;; the property that matters -- the balance-delta accounting simply sees the
+;; fee as a cost of the swap.
+(define-constant PROOF_FEE_BUDGET u10000)
 
 ;; pox-5 caps a lock at 12 cycles (`check-pox-lock-period`).
 (define-constant CYCLE_OFFSETS (list u0 u1 u2 u3 u4 u5 u6 u7 u8 u9 u10 u11))
@@ -542,19 +555,12 @@
 ;; `as-contract?` allowance caps the sBTC that can leave, the STX credited is
 ;; measured from this contract's own balance delta rather than taken from the
 ;; adapter's return value, and the adapter must be on the admin's allowlist.
-(define-public (swap-rewards
+(define-private (swap-precheck
     (reward-cycle uint)
-    (adapter <dex-adapter-trait>)
-    (oracle <price-oracle-trait>)
     (amount-sats uint)
-    (min-stx-out uint)
   )
   (begin
     (try! (authorize-operator))
-    (asserts! (default-to false (map-get? dex-adapters (contract-of adapter)))
-      ERR_ADAPTER_NOT_ALLOWED
-    )
-    (asserts! (is-eq (contract-of oracle) (var-get price-oracle)) ERR_WRONG_ORACLE)
     ;; Pin before reading the settlement: pinning writes to it.
     (try! (pin-shares reward-cycle))
     (let (
@@ -569,81 +575,213 @@
         (<= amount-sats (- (get pot-sats settlement) (get swapped-sats settlement)))
         ERR_SWAP_EXCEEDS_POT
       )
+      ;; The fee is taken in sBTC and never reaches the DEX.
+      (ok {
+        fee: fee,
+        net: (- amount-sats fee),
+      })
+    )
+  )
+)
+
+;; The baseline floor, when it is switched on. See `enforce-price-floor`.
+(define-private (enforce-floor
+    (min-stx-out uint)
+    (baseline (optional uint))
+  )
+  (if (var-get enforce-price-floor)
+    (begin
+      (asserts!
+        (>= min-stx-out
+          (/
+            (* (unwrap! baseline ERR_NO_BASELINE)
+              (- MAX_BIPS (var-get max-slippage-bips))
+            )
+            MAX_BIPS
+          ))
+        ERR_MIN_OUT_TOO_LOW
+      )
+      (ok true)
+    )
+    (ok true)
+  )
+)
+
+;; Shared back half of a swap: measure what actually arrived, hold it to
+;; `min-stx-out`, and book it. Takes the adapter as a plain principal rather
+;; than a trait so that both swap entry points can share it.
+(define-private (swap-commit
+    (reward-cycle uint)
+    (adapter principal)
+    (amount-sats uint)
+    (fee uint)
+    (net uint)
+    (stx-before uint)
+    (min-stx-out uint)
+    (baseline (optional uint))
+  )
+  (let (
+      (stx-after (stx-get-balance current-contract))
+      ;; On the plain path no STX allowance was granted, so the balance cannot
+      ;; have fallen. On the proof path it can, by at most PROOF_FEE_BUDGET.
+      ;; Either way the guard keeps this total-safe, and a fee paid to refresh
+      ;; a price feed is correctly netted out of what the swap delivered.
+      (stx-out (if (> stx-after stx-before)
+        (- stx-after stx-before)
+        u0
+      ))
+      (settlement (get-settlement reward-cycle))
+    )
+    (asserts! (>= stx-out min-stx-out) ERR_SLIPPAGE)
+    (var-set earned-fees (+ (var-get earned-fees) fee))
+    (var-set unswapped-sats (- (var-get unswapped-sats) amount-sats))
+    (var-set unpaid-stx (+ (var-get unpaid-stx) stx-out))
+    (map-set cycle-settlement reward-cycle
+      (merge settlement {
+        swapped-sats: (+ (get swapped-sats settlement) amount-sats),
+        fee-sats: (+ (get fee-sats settlement) fee),
+        stx-out: (+ (get stx-out settlement) stx-out),
+      }))
+    (print {
+      topic: "swap-rewards",
+      reward-cycle: reward-cycle,
+      adapter: adapter,
+      amount-sats: amount-sats,
+      fee-sats: fee,
+      net-sats: net,
+      min-stx-out: min-stx-out,
+      stx-out: stx-out,
+      ;; The two numbers side by side are the whole point of keeping the
+      ;; baseline while it is not enforced: `stx-out` is what the market
+      ;; actually paid for `net-sats`, `baseline-ustx` is what the
+      ;; miner-commit price said it was worth. Their ratio, gathered over
+      ;; real swaps, is what `max-slippage-bips` should be set from.
+      baseline-ustx: baseline,
+      floor-enforced: (var-get enforce-price-floor),
+    })
+    (ok stx-out)
+  )
+)
+
+;; Swap part or all of a cycle's pot from sBTC to STX on one DEX.
+;;
+;; Operator only. Everything else in this contract is permissionless; this one
+;; call is not, because `min-stx-out` is caller-supplied -- open it up and
+;; anyone could set it to 1, sandwich the call and take the pot.
+;;
+;; Callable repeatedly for the same cycle with different adapters and amounts:
+;; the legs accumulate into one settlement record. That is how a large pot gets
+;; split across venues to cut price impact, and how a leg that reverts on
+;; slippage is retried on its own without disturbing the others.
+;;
+;; The adapter is treated as untrusted. Three independent guards bound it: the
+;; `as-contract?` allowance caps the sBTC that can leave, the STX credited is
+;; measured from this contract's own balance delta rather than taken from the
+;; adapter's return value, and the adapter must be on the admin's allowlist.
+(define-public (swap-rewards
+    (reward-cycle uint)
+    (adapter <dex-adapter-trait>)
+    (oracle <price-oracle-trait>)
+    (amount-sats uint)
+    (min-stx-out uint)
+  )
+  (begin
+    (asserts! (default-to false (map-get? dex-adapters (contract-of adapter)))
+      ERR_ADAPTER_NOT_ALLOWED
+    )
+    (asserts! (is-eq (contract-of oracle) (var-get price-oracle)) ERR_WRONG_ORACLE)
+    (let (
+        (pre (try! (swap-precheck reward-cycle amount-sats)))
+        (net (get net pre))
+      )
       (let (
-          ;; The fee is taken in sBTC and never reaches the DEX.
-          (net (- amount-sats fee))
-          (stx-before (stx-get-balance current-contract))
-          ;; Read the baseline for the record. An oracle that cannot price right
-          ;; now must not be able to stop a swap while the floor is off, so an
-          ;; error becomes `none` here instead of propagating. With the floor
-          ;; ON, that `none` is what `ERR_NO_BASELINE` catches below -- a floor
+          ;; Read the baseline for the record. An oracle that cannot price
+          ;; right now must not be able to stop a swap while the floor is off,
+          ;; so an error becomes `none` here instead of propagating. With the
+          ;; floor ON, that `none` is what `ERR_NO_BASELINE` catches -- a floor
           ;; that silently passes when its input is missing would be no floor.
           (baseline (match (contract-call? oracle sats-to-ustx net)
             priced (some priced)
             oracle-error none
           ))
         )
-        (if (var-get enforce-price-floor)
-          (asserts!
-            (>= min-stx-out
-              (/
-                (* (unwrap! baseline ERR_NO_BASELINE)
-                  (- MAX_BIPS (var-get max-slippage-bips))
-                )
-                MAX_BIPS
-              ))
-            ERR_MIN_OUT_TOO_LOW
-          )
-          true
-        )
-        (try! (as-contract?
-          ((with-ft 'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token
-            "sbtc-token" net
-          ))
-          (try! (contract-call? adapter swap-sbtc-to-stx net min-stx-out))
-        ))
-        (let (
-            (stx-after (stx-get-balance current-contract))
-            ;; No STX allowance was granted above, so the balance cannot have
-            ;; fallen; the guard keeps this total-safe regardless.
-            (stx-out (if (> stx-after stx-before)
-              (- stx-after stx-before)
-              u0
+        (try! (enforce-floor min-stx-out baseline))
+        ;; Read the balance AFTER the oracle call, so nothing that call might
+        ;; do can be mistaken for swap proceeds.
+        (let ((stx-before (stx-get-balance current-contract)))
+          (try! (as-contract?
+            ((with-ft 'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token
+              "sbtc-token" net
             ))
+            (try! (contract-call? adapter swap-sbtc-to-stx net min-stx-out))
+          ))
+          (swap-commit reward-cycle (contract-of adapter) amount-sats
+            (get fee pre) net stx-before min-stx-out baseline
           )
-          (asserts! (>= stx-out min-stx-out) ERR_SLIPPAGE)
-          (var-set earned-fees (+ (var-get earned-fees) fee))
-          (var-set unswapped-sats (- (var-get unswapped-sats) amount-sats))
-          (var-set unpaid-stx (+ (var-get unpaid-stx) stx-out))
-          (map-set cycle-settlement reward-cycle
-            (merge settlement {
-              swapped-sats: (+ (get swapped-sats settlement) amount-sats),
-              fee-sats: (+ (get fee-sats settlement) fee),
-              stx-out: (+ (get stx-out settlement) stx-out),
-            }))
-          (print {
-            topic: "swap-rewards",
-            reward-cycle: reward-cycle,
-            adapter: (contract-of adapter),
-            amount-sats: amount-sats,
-            fee-sats: fee,
-            net-sats: net,
-            min-stx-out: min-stx-out,
-            stx-out: stx-out,
-            ;; The two numbers side by side are the whole point of keeping the
-            ;; baseline while it is not enforced: `stx-out` is what the market
-            ;; actually paid for `net-sats`, `baseline-ustx` is what the
-            ;; miner-commit price said it was worth. Their ratio, gathered over
-            ;; real swaps, is what `max-slippage-bips` should be set from.
-            baseline-ustx: baseline,
-            floor-enforced: (var-get enforce-price-floor),
-          })
-          (ok stx-out)
         )
       )
     )
   )
 )
+
+;; The same swap, for a venue that needs an off-chain price attestation handed
+;; to it in the transaction.
+;;
+;; Jing's Juice batch auction is the case this exists for: its taker `swap`
+;; settles against a Pyth feed refreshed in the same call, so it takes a VAA
+;; that only the keeper can fetch. That payload cannot be squeezed into
+;; `dex-adapter-trait`, so it gets its own trait and its own entry point --
+;; rather than widening the AMM trait with a buffer every other adapter would
+;; ignore.
+;;
+;; Everything else is identical, deliberately: same operator gate, same
+;; allowlist, same `as-contract?` allowance, same balance-delta accounting,
+;; same settlement bookkeeping. The `proof` is opaque here and is forwarded
+;; without inspection -- it is the venue's input, not this contract's.
+(define-public (swap-rewards-with-proof
+    (reward-cycle uint)
+    (adapter <dex-adapter-proof-trait>)
+    (oracle <price-oracle-trait>)
+    (amount-sats uint)
+    (min-stx-out uint)
+    (proof (buff 8192))
+  )
+  (begin
+    (asserts! (default-to false (map-get? dex-adapters (contract-of adapter)))
+      ERR_ADAPTER_NOT_ALLOWED
+    )
+    (asserts! (is-eq (contract-of oracle) (var-get price-oracle)) ERR_WRONG_ORACLE)
+    (let (
+        (pre (try! (swap-precheck reward-cycle amount-sats)))
+        (net (get net pre))
+      )
+      (let ((baseline (match (contract-call? oracle sats-to-ustx net)
+          priced (some priced)
+          oracle-error none
+        )))
+        (try! (enforce-floor min-stx-out baseline))
+        (let ((stx-before (stx-get-balance current-contract)))
+          (try! (as-contract?
+            (
+              (with-ft 'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token
+                "sbtc-token" net
+              )
+              ;; For the venue's oracle-refresh fee. See PROOF_FEE_BUDGET.
+              (with-stx PROOF_FEE_BUDGET)
+            )
+            (try! (contract-call? adapter swap-sbtc-to-stx-with-proof net
+              min-stx-out proof
+            ))
+          ))
+          (swap-commit reward-cycle (contract-of adapter) amount-sats
+            (get fee pre) net stx-before min-stx-out baseline
+          )
+        )
+      )
+    )
+  )
+)
+
 
 ;;; ---------------------------------------------------------------------------
 ;;; 4. Distribute

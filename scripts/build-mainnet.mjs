@@ -29,6 +29,21 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 const TESTNET_POX5 = 'ST000000000000000000002AMW42H';
 const MAINNET_POX5 = 'SP000000000000000000002Q6VF78';
 
+// Jing's Juice market is not on mainnet yet, so it cannot be a Clarinet
+// `requirement`; it is vendored under vendor/ instead, and the adapter refers
+// to it with same-deployer sugar so it resolves against that local copy. For a
+// mainnet build that reference has to become the real principal.
+//
+// CONFIRM THIS ADDRESS BEFORE APPLYING. It is taken from JING-MARKET in the
+// authors' own vault-sbtc-stx-v2.clar, which is the expected v3 deployment --
+// but the contracts were not yet published when the adapter was written.
+//
+// The adapter itself lives in contracts/pending/ and is NOT in this suite yet;
+// the rewrite below is here so that promoting it is one line, not a redesign.
+const JING_MARKET_LOCAL = '.markets-sbtc-stx-jing-v2';
+const JING_MARKET_MAINNET =
+  "'SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.markets-sbtc-stx-jing-v2";
+
 // Publish order matters: `dex-traits` defines the traits the others use, and
 // the signer manager must exist before an adapter is allowlisted against it.
 // `mock-dex-adapter` is absent on purpose -- it is a test fixture.
@@ -47,17 +62,25 @@ mkdirSync(outDir, { recursive: true });
 const rewritten = [];
 for (const [name, path] of SUITE) {
   const src = readFileSync(path, 'utf8');
-  const out = src.split(TESTNET_POX5).join(MAINNET_POX5);
+  let out = src.split(TESTNET_POX5).join(MAINNET_POX5);
   const hits = src.split(TESTNET_POX5).length - 1;
+  const jingHits = out.split(JING_MARKET_LOCAL).length - 1;
+  out = out.split(JING_MARKET_LOCAL).join(JING_MARKET_MAINNET);
   writeFileSync(`${outDir}/${name}.clar`, out);
   rewritten.push({ name, path, out: `${outDir}/${name}.clar`, hits });
-  console.log(`${name.padEnd(26)} ${String(hits).padStart(3)} pox-5 principal(s) rewritten  -> ${outDir}/${name}.clar`);
+  const extra = jingHits ? `, ${jingHits} jing-market ref(s)` : '';
+  console.log(`${name.padEnd(36)} ${String(hits).padStart(3)} pox-5 principal(s)${extra} rewritten`);
 }
 
 // Sanity: nothing may still point at the testnet boot address.
 for (const r of rewritten) {
-  if (readFileSync(r.out, 'utf8').includes(TESTNET_POX5)) {
+  const body = readFileSync(r.out, 'utf8');
+  if (body.includes(TESTNET_POX5)) {
     console.error(`FATAL: ${r.out} still references ${TESTNET_POX5}`);
+    process.exit(1);
+  }
+  if (body.includes(JING_MARKET_LOCAL) && !body.includes(JING_MARKET_MAINNET)) {
+    console.error(`FATAL: ${r.out} still points at the vendored Jing market`);
     process.exit(1);
   }
 }

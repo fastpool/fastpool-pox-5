@@ -184,6 +184,31 @@ export function swap(
   );
 }
 
+/** `swap-rewards-with-proof`: the same leg, carrying a venue price attestation. */
+export function swapWithProof(
+  cycle: number,
+  amountSats: number,
+  minStxOut: number,
+  proofHex: string,
+  sender = deployer,
+  adapter = adapterPrincipal(),
+  oracle = oraclePrincipal(),
+) {
+  return simnet.callPublicFn(
+    MGR,
+    "swap-rewards-with-proof",
+    [
+      Cl.uint(cycle),
+      Cl.principal(adapter),
+      Cl.principal(oracle),
+      Cl.uint(amountSats),
+      Cl.uint(minStxOut),
+      Cl.bufferFromHex(proofHex),
+    ],
+    sender,
+  );
+}
+
 export const distributeMany = (who: string[], cycle: number, sender = deployer) =>
   simnet.callPublicFn(
     MGR,

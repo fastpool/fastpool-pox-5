@@ -30,6 +30,7 @@ import {
   stxBalance,
   swap,
   swapStatus,
+  swapWithProof,
   expectOk,
 } from "./helpers/stx-rewards-fixture";
 
@@ -308,6 +309,54 @@ describe("swap", () => {
     );
     expect(errCode(swap(rewardCycle, pot, quote(pot), deployer))).toBe(1002);
     expectOk(swap(rewardCycle, pot, quote(pot), stackers[1]), "new operator swaps");
+  });
+});
+
+describe("swap-rewards-with-proof", () => {
+  // Stands in for a Pyth VAA: the manager treats it as opaque bytes.
+  const PROOF = "deadbeef".repeat(8);
+
+  it("swaps through a proof-carrying venue and forwards the payload untouched", () => {
+    const { rewardCycle, pot } = ready();
+    const expected = quote(pot);
+    expectOk(swapWithProof(rewardCycle, pot, expected, PROOF), "swap with proof");
+
+    expect(swapStatus(rewardCycle).stxOut).toBe(expected);
+    expect(swapStatus(rewardCycle).swappedSats).toBe(pot);
+    // The manager must not inspect, truncate or reorder the venue's payload.
+    expect(
+      simnet.callReadOnlyFn(ADAPTER, "get-last-proof", [], deployer).result,
+    ).toStrictEqual(Cl.bufferFromHex(PROOF));
+  });
+
+  it("holds the proof path to the same min-stx-out as the plain path", () => {
+    const { rewardCycle, pot } = ready();
+    expectOk(simnet.callPublicFn(ADAPTER, "set-mode", [Cl.uint(1)], deployer), "under-deliver");
+    expect(errCode(swapWithProof(rewardCycle, pot, quote(pot), PROOF))).toBe(1007); // ERR_SLIPPAGE
+    expect(swapStatus(rewardCycle).swappedSats).toBe(0);
+    expect(mgrNum("get-unswapped-sats")).toBe(pot);
+  });
+
+  it("is operator-gated and allowlisted like the plain path", () => {
+    const { rewardCycle, pot } = ready();
+    expect(errCode(swapWithProof(rewardCycle, pot, quote(pot), PROOF, stackers[1]))).toBe(1002);
+    expect(
+      errCode(
+        swapWithProof(rewardCycle, pot, quote(pot), PROOF, deployer, oraclePrincipal()),
+      ),
+    ).toBe(1006); // ERR_ADAPTER_NOT_ALLOWED
+  });
+
+  it("accumulates legs with the plain path on the same cycle", () => {
+    const { rewardCycle, pot } = ready();
+    const legA = Math.floor(pot / 2);
+    const legB = pot - legA;
+    expectOk(swap(rewardCycle, legA, quote(legA)), "amm leg");
+    expectOk(swapWithProof(rewardCycle, legB, quote(legB), PROOF), "auction leg");
+    // One settlement record, both venues.
+    expect(swapStatus(rewardCycle).swappedSats).toBe(pot);
+    expect(swapStatus(rewardCycle).stxOut).toBe(quote(legA) + quote(legB));
+    expect(swapStatus(rewardCycle).remainingSats).toBe(0);
   });
 });
 
