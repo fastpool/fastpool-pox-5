@@ -1,4 +1,4 @@
-# Deploying `fastpool-stx-rewards`
+# Deploying `fastpool-stx-rewards-signer-manager`
 
 The suite is five contracts. This is the order to publish them, the wiring they
 need before they can run a cycle, and the checks to run at each step.
@@ -12,7 +12,7 @@ Design rationale lives in [plan-fastpool-stx-rewards.md](plan-fastpool-stx-rewar
 | contract | testnet | mainnet | why |
 | --- | --- | --- | --- |
 | `dex-traits` | yes | yes | trait definitions |
-| `fastpool-stx-rewards` | yes | yes | the signer manager |
+| `fastpool-stx-rewards-signer-manager` | yes | yes | the signer manager |
 | `price-oracle-dummy` | yes | **no** | admin-set rate; testnet/test stand-in |
 | `price-oracle-jing` | **no** | yes | production baseline: miner commits |
 | `dex-adapter-bitflow-dlmm` | **no** | yes | hard-codes live mainnet pools |
@@ -70,7 +70,7 @@ node scripts/build-mainnet.mjs
 clarinet deployments apply -p deployments/stx-rewards.mainnet-plan.yaml
 ```
 
-Publish order is `dex-traits` → `fastpool-stx-rewards` → `price-oracle-dummy` →
+Publish order is `dex-traits` → `fastpool-stx-rewards-signer-manager` → `price-oracle-dummy` →
 the two adapters. The plan already encodes it, one batch per contract.
 
 ## 5. Wiring — the contract does nothing useful until this is done

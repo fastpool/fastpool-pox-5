@@ -1,10 +1,10 @@
-# Plan: `fastpool-stx-rewards`
+# Plan: `fastpool-stx-rewards-signer-manager`
 
 A FAST Pool signer manager for pox-5 that pays stacking rewards in **STX**, by
 swapping the pool's sBTC on a DEX before distributing.
 
-Status: **phases 1-3 implemented.** `contracts/stx-rewards.clar` (deployed as
-`fastpool-stx-rewards`), `contracts/dex-traits.clar`, and the two test support
+Status: **phases 1-3 implemented.** `contracts/signer-manager-stx-rewards.clar` (deployed as
+`fastpool-stx-rewards-signer-manager`), `contracts/dex-traits.clar`, and the two test support
 contracts are in the tree and passing; `clarinet check` reports 0 errors and
 `tests/stx-rewards.test.ts` is green. Phases 4-6 -- the real DEX adapters, the
 keeper script, and the miner-commit oracle -- are still proposals. See §17.
@@ -27,12 +27,12 @@ their reward by picking which contract they lock against:
 
 | contract | stacker receives |
 | --- | --- |
-| **`fastpool-stx-rewards`** (this plan) | **STX** |
+| **`fastpool-stx-rewards-signer-manager`** (this plan) | **STX** |
 | `max500` and other siblings | sBTC, L1 BTC, other arrangements |
 
 That is the central design decision, and it is what keeps this contract small:
 **there is no per-stacker reward preference to store, freeze, or branch on.**
-Everyone locked against `fastpool-stx-rewards` gets STX at the same price. A
+Everyone locked against `fastpool-stx-rewards-signer-manager` gets STX at the same price. A
 stacker who wants something else unstakes and re-stakes against a different
 contract.
 
@@ -858,7 +858,7 @@ testnet.
 
 | file | what |
 | --- | --- |
-| `contracts/stx-rewards.clar` | the signer manager, deployed as `fastpool-stx-rewards` |
+| `contracts/signer-manager-stx-rewards.clar` | the signer manager, deployed as `fastpool-stx-rewards-signer-manager` |
 | `contracts/dex-traits.clar` | `dex-adapter-trait` and `price-oracle-trait` |
 | `contracts/price-oracle-dummy.clar` | owner-set baseline, standing in until phase 6 |
 | `contracts/mock-dex-adapter.clar` | test DEX with injectable failure modes |

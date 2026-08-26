@@ -72,8 +72,8 @@ epoch = "4.0"
 
 # The STX-rewards signer manager: pox-5 rewards arrive as sBTC, get swapped on
 # a DEX, and are distributed to stackers as STX.
-[contracts.fastpool-stx-rewards]
-path = "contracts/stx-rewards.clar"
+[contracts.fastpool-stx-rewards-signer-manager]
+path = "contracts/signer-manager-stx-rewards.clar"
 clarity_version = 6
 epoch = "4.0"
 
@@ -89,7 +89,7 @@ clarity_version = 6
 epoch = "4.0"
 
 # Production swap adapters, one per venue. Each pins its router, pool and tokens
-# as literals, so the allowlist in `fastpool-stx-rewards` authorizes a specific
+# as literals, so the allowlist in `fastpool-stx-rewards-signer-manager` authorizes a specific
 # pool rather than a class of them.
 [contracts.dex-adapter-bitflow-dlmm]
 path = "contracts/dex-adapter-bitflow-dlmm.clar"

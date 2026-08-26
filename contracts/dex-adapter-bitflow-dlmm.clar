@@ -2,7 +2,7 @@
 ;; Swap sBTC -> STX on Bitflow's DLMM (concentrated-liquidity) pool.
 ;;
 ;; Everything about the venue is a literal here: the router, the pool, and both
-;; tokens. That is deliberate -- the adapter allowlist in `fastpool-stx-rewards`
+;; tokens. That is deliberate -- the adapter allowlist in `fastpool-stx-rewards-signer-manager`
 ;; then authorizes one specific pool, and the operator has no parameter with
 ;; which to redirect a swap somewhere else.
 ;;

@@ -1,5 +1,5 @@
 id: 0
-name: fastpool-stx-rewards mainnet deployment
+name: fastpool-stx-rewards-signer-manager mainnet deployment
 network: mainnet
 stacks-node: https://api.hiro.so
 bitcoin-node: http://blockstack:blockstacksystem@bitcoin.blockstack.com:8332
@@ -28,10 +28,10 @@ plan:
   - id: 1
     transactions:
     - transaction-type: contract-publish
-      contract-name: fastpool-stx-rewards
+      contract-name: fastpool-stx-rewards-signer-manager
       expected-sender: SPMPMA1V6P430M8C91QS1G9XJ95S59JS1TZFZ4Q4
       cost: 500000
-      path: build/mainnet/fastpool-stx-rewards.clar
+      path: build/mainnet/fastpool-stx-rewards-signer-manager.clar
       anchor-block-only: true
       clarity-version: 6
     epoch: '4.0'

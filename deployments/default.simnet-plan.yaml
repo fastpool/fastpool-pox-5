@@ -207,9 +207,9 @@ plan:
       path: contracts/signer-manager-accounting-multi.clar
       clarity-version: 6
     - transaction-type: emulated-contract-publish
-      contract-name: fastpool-stx-rewards
+      contract-name: fastpool-stx-rewards-signer-manager
       emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
-      path: contracts/stx-rewards.clar
+      path: contracts/signer-manager-stx-rewards.clar
       clarity-version: 6
     - transaction-type: emulated-contract-publish
       contract-name: mock-dex-adapter

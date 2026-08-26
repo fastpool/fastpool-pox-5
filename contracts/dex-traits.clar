@@ -1,5 +1,5 @@
 ;; title: dex-traits
-;; Traits used by `fastpool-stx-rewards` for its sBTC -> STX swap.
+;; Traits used by `fastpool-stx-rewards-signer-manager` for its sBTC -> STX swap.
 ;;
 ;; They live in their own contract so that adapter and oracle implementations
 ;; can `impl-trait` them without depending on the signer manager itself, and so

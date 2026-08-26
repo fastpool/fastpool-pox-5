@@ -1,5 +1,5 @@
 ;; title: price-oracle-dummy
-;; A placeholder baseline price feed for `fastpool-stx-rewards`.
+;; A placeholder baseline price feed for `fastpool-stx-rewards-signer-manager`.
 ;;
 ;; The signer manager uses the baseline only as a sanity floor on the
 ;; operator's `min-stx-out` -- it is not a pricing feed, and the floor is set

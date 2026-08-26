@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 //
-// Operator/keeper driver for `fastpool-stx-rewards`.
+// Operator/keeper driver for `fastpool-stx-rewards-signer-manager`.
 //
 // One cycle, start to finish:
 //
@@ -27,7 +27,7 @@
 //   API_URL          overrides the profile's node URL
 //   CHAIN_ID         overrides the chain id auto-detected from /v2/info
 //   FEE              default 100000 uSTX per call
-//   CONTRACT         default <deployerAddr>.fastpool-stx-rewards
+//   CONTRACT         default <deployerAddr>.fastpool-stx-rewards-signer-manager
 //   OPERATOR_KEY     hex key for `swap` (else mnemonic account 0)
 //   DEPLOYER_KEY     hex key for everything else (else mnemonic account 0)
 //   REWARD_CYCLE     the cycle to act on (required for every subcommand)
@@ -69,7 +69,7 @@ const cycle = () => {
 
 const deployerKey = await resolveDeployerKey();
 const deployerAddr = getAddressFromPrivateKey(deployerKey, 'testnet');
-const CONTRACT = process.env.CONTRACT ?? `${deployerAddr}.fastpool-stx-rewards`;
+const CONTRACT = process.env.CONTRACT ?? `${deployerAddr}.fastpool-stx-rewards-signer-manager`;
 const [addr, name] = CONTRACT.split('.');
 
 // Venues. Each `adapter` is one of contracts/dex-adapter-*.clar, deployed

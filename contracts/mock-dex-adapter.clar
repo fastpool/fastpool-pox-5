@@ -1,5 +1,5 @@
 ;; title: mock-dex-adapter
-;; A stand-in DEX for testing `fastpool-stx-rewards`.
+;; A stand-in DEX for testing `fastpool-stx-rewards-signer-manager`.
 ;;
 ;; No Stacks DEX has sBTC/STX liquidity in simnet, so the unit tests run
 ;; against this instead: a fixed owner-set rate, plus injectable failure modes

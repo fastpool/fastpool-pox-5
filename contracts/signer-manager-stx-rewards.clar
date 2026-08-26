@@ -1,4 +1,4 @@
-;; title: fastpool-stx-rewards
+;; title: fastpool-stx-rewards-signer-manager
 ;; A FAST Pool signer manager for pox-5 that pays stacking rewards in STX.
 ;;
 ;; pox-5 pays a pool's rewards in sBTC. This contract claims that pot, swaps it

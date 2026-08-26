@@ -34,7 +34,7 @@ const MAINNET_POX5 = 'SP000000000000000000002Q6VF78';
 // `mock-dex-adapter` is absent on purpose -- it is a test fixture.
 const SUITE = [
   ['dex-traits', 'contracts/dex-traits.clar'],
-  ['fastpool-stx-rewards', 'contracts/stx-rewards.clar'],
+  ['fastpool-stx-rewards-signer-manager', 'contracts/signer-manager-stx-rewards.clar'],
   ['price-oracle-jing', 'contracts/price-oracle-jing.clar'],
   ['dex-adapter-bitflow-dlmm', 'contracts/dex-adapter-bitflow-dlmm.clar'],
   ['dex-adapter-bitflow-xyk', 'contracts/dex-adapter-bitflow-xyk.clar'],
@@ -63,7 +63,7 @@ for (const r of rewritten) {
 }
 
 const plan = `id: 0
-name: fastpool-stx-rewards mainnet deployment
+name: fastpool-stx-rewards-signer-manager mainnet deployment
 network: mainnet
 stacks-node: https://api.hiro.so
 bitcoin-node: http://blockstack:blockstacksystem@bitcoin.blockstack.com:8332

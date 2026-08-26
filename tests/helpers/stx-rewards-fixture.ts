@@ -1,5 +1,5 @@
 // Drives pox-5 far enough to produce real, non-zero rewards for
-// `fastpool-stx-rewards` in simnet, and arms the mock DEX + dummy oracle so the
+// `fastpool-stx-rewards-signer-manager` in simnet, and arms the mock DEX + dummy oracle so the
 // swap path can be exercised end to end.
 import { Cl, ClarityValue, cvToValue } from "@stacks/transactions";
 import { expect } from "vitest";
@@ -7,7 +7,7 @@ import { currentCycle, fundRewards, num, POX5, registerSigner, SBTC } from "./re
 
 export { POX5, SBTC, num, currentCycle, fundRewards };
 
-export const MGR = "fastpool-stx-rewards";
+export const MGR = "fastpool-stx-rewards-signer-manager";
 export const ORACLE = "price-oracle-dummy";
 export const ADAPTER = "mock-dex-adapter";
 
