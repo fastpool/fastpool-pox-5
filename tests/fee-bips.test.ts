@@ -1,14 +1,23 @@
-// Pins the two fee constants of `contracts/signer-manager.clar`:
+// Pins the fee constants of `contracts/signer-manager.clar`:
 //
-//   MAX_BIPS          u500    -- the cap enforced by `update-fees` (`<`, so the
-//                               highest settable rate is 499 bips = 4.99%)
-//   BIPS_DENOMINATOR  u10000  -- the divisor used when fees are taken from
-//                               rewards (`gross * bips / 10000`)
+//   MAX_FEE_BIPS               u500    -- the cap enforced by `update-fees`.
+//                                         The check is `<=`, so 500 bips
+//                                         (exactly 5%) IS settable and 501 is
+//                                         not.
+//   BIPS_DENOMINATOR           u10000  -- the divisor used when fees are taken
+//                                         from rewards (`gross * bips / 10000`)
+//   FEE_ACTIVATION_DELAY_CYCLES u2     -- how long an INCREASE is queued before
+//                                         it can be snapshotted. A decrease
+//                                         applies immediately.
 //
-// Both matter: a wrong cap would let an admin take more than 5%, and a wrong
+// All three matter: a wrong cap would let an admin take more than 5%, a wrong
 // denominator would silently rescale every fee (e.g. /1000 turns 499 bips into
-// ~50%). The first block covers the cap, the second drives a real reward payout
-// and checks the arithmetic against the gross rewards pox-5 reports.
+// ~50%), and a missing delay would let an admin raise the rate on rewards a
+// staker has no chance to walk away from.
+//
+// The first block covers the cap, the second the activation delay, and the
+// third drives a real reward payout and checks the arithmetic against the gross
+// rewards pox-5 reports.
 import { Cl } from "@stacks/transactions";
 import { describe, expect, it } from "vitest";
 import {
@@ -29,8 +38,9 @@ const MANAGER = "fastpool-1-signer-manager";
 // other tests use.
 const POX5 = "SP000000000000000000002Q6VF78.pox-5";
 
-const MAX_BIPS = 500;
+const MAX_FEE_BIPS = 500;
 const BIPS_DENOMINATOR = 10_000;
+const FEE_ACTIVATION_DELAY_CYCLES = 2;
 const ERR_INVALID_FEES_BIPS = 1005;
 
 const accounts = simnet.getAccounts();
@@ -52,19 +62,18 @@ const sbtcBalance = (who: string) =>
     ).value,
   );
 
-describe("update-fees enforces MAX_BIPS", () => {
-  it("accepts every rate below MAX_BIPS, up to 4.99%", () => {
-    for (const bips of [0, 1, 100, 250, MAX_BIPS - 1]) {
+describe("update-fees enforces MAX_FEE_BIPS", () => {
+  it("accepts every rate up to and including MAX_FEE_BIPS", () => {
+    for (const bips of [0, 1, 100, 250, MAX_FEE_BIPS - 1, MAX_FEE_BIPS]) {
       expect(updateFees(bips)).toBeOk(Cl.bool(true));
-      // sanity: everything accepted really is below 5%
-      expect(bips / BIPS_DENOMINATOR).toBeLessThan(0.05);
+      // sanity: nothing accepted exceeds 5%
+      expect(bips / BIPS_DENOMINATOR).toBeLessThanOrEqual(0.05);
     }
   });
 
-  it("rejects MAX_BIPS itself and anything above it", () => {
+  it("rejects anything above MAX_FEE_BIPS", () => {
     for (const bips of [
-      MAX_BIPS, // exactly 5% -- the cap is `<`, not `<=`
-      MAX_BIPS + 1,
+      MAX_FEE_BIPS + 1, // the first rate over 5%
       1_000,
       BIPS_DENOMINATOR,
       BIPS_DENOMINATOR + 1,
@@ -74,12 +83,63 @@ describe("update-fees enforces MAX_BIPS", () => {
   });
 
   it("leaves the stored rate untouched when a too-high rate is rejected", () => {
-    expect(updateFees(MAX_BIPS - 1)).toBeOk(Cl.bool(true));
-    expect(updateFees(MAX_BIPS)).toBeErr(Cl.uint(ERR_INVALID_FEES_BIPS));
+    expect(updateFees(MAX_FEE_BIPS)).toBeOk(Cl.bool(true));
+    expect(updateFees(MAX_FEE_BIPS + 1)).toBeErr(Cl.uint(ERR_INVALID_FEES_BIPS));
 
     // The rate is only observable once snapshotted per cycle, so drive a claim.
-    const { cycle } = earnRewards(MAX_BIPS - 1, { alreadySet: true });
-    expect(feeBipsForCycle(cycle)).toBeUint(MAX_BIPS - 1);
+    // `earnRewards` mines past the activation delay, so the accepted rate is
+    // the one the cycle gets.
+    const { cycle } = earnRewards(MAX_FEE_BIPS, { alreadySet: true });
+    expect(feeBipsForCycle(cycle)).toBeUint(MAX_FEE_BIPS);
+  });
+});
+
+describe("fee increases wait FEE_ACTIVATION_DELAY_CYCLES", () => {
+  const activeBips = () =>
+    num(simnet.callReadOnlyFn(MANAGER, "get-active-fee-bips", [], deployer).result);
+
+  const pending = () =>
+    (simnet.callReadOnlyFn(MANAGER, "get-pending-fees", [], deployer).result as any).value;
+
+  /** Mine forward until `current-cycle` has advanced by `n`. */
+  function advanceCycles(n: number) {
+    const target = num(
+      simnet.callReadOnlyFn(
+        POX5,
+        "reward-cycle-to-burn-height",
+        [Cl.uint(currentCycle(deployer, POX5) + n)],
+        deployer,
+      ).result,
+    );
+    simnet.mineEmptyBurnBlocks(Math.max(1, target - simnet.burnBlockHeight + 1));
+  }
+
+  it("queues an increase and only applies it after the delay", () => {
+    const startCycle = currentCycle(deployer, POX5);
+    expect(updateFees(300)).toBeOk(Cl.bool(true));
+
+    // Queued, not live: a staker who dislikes 3% still has time to unstake.
+    expect(activeBips()).toBe(0);
+    expect(pending()["pending-bips"]).toBeUint(300);
+    expect(pending()["activation-cycle"]).toBeUint(
+      startCycle + FEE_ACTIVATION_DELAY_CYCLES,
+    );
+
+    advanceCycles(FEE_ACTIVATION_DELAY_CYCLES - 1);
+    expect(activeBips()).toBe(0); // one cycle short is still not enough
+
+    advanceCycles(1);
+    expect(activeBips()).toBe(300);
+  });
+
+  it("applies a decrease immediately", () => {
+    expect(updateFees(400)).toBeOk(Cl.bool(true));
+    advanceCycles(FEE_ACTIVATION_DELAY_CYCLES);
+    expect(activeBips()).toBe(400);
+
+    // Down is always in the stakers' favour, so it needs no waiting period.
+    expect(updateFees(150)).toBeOk(Cl.bool(true));
+    expect(activeBips()).toBe(150);
   });
 });
 
@@ -90,7 +150,8 @@ describe("fees are taken as bips / BIPS_DENOMINATOR", () => {
     ["0 bips takes nothing", 0],
     ["100 bips is exactly 1%", 100],
     ["250 bips is exactly 2.5%", 250],
-    ["499 bips (MAX_BIPS - 1) is 4.99%", MAX_BIPS - 1],
+    ["499 bips is 4.99%", MAX_FEE_BIPS - 1],
+    ["500 bips (MAX_FEE_BIPS) is exactly 5%", MAX_FEE_BIPS],
   ];
 
   for (const [name, bips] of cases) {
@@ -113,8 +174,11 @@ describe("fees are taken as bips / BIPS_DENOMINATOR", () => {
       // The fee is a fraction of 10000, not of 100 or 1000: rounding aside,
       // `fee / gross` must equal `bips / 10000`.
       expect(expectedFee / gross).toBeCloseTo(bips / BIPS_DENOMINATOR, 6);
-      // ...and can never reach 5% of the rewards.
-      expect(expectedFee * BIPS_DENOMINATOR).toBeLessThan(gross * MAX_BIPS);
+      // ...and can never exceed 5% of the rewards. Equality is reachable now
+      // that MAX_FEE_BIPS itself is settable, so this is `<=`, not `<`.
+      expect(expectedFee * BIPS_DENOMINATOR).toBeLessThanOrEqual(
+        gross * MAX_FEE_BIPS,
+      );
 
       // The payout matches the view: staker gets `gross - fee`, the contract
       // keeps `fee` as withdrawable admin fees.
