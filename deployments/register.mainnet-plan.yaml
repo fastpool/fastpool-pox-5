@@ -1,0 +1,22 @@
+id: 0
+name: Register signer-manager
+network: mainnet
+stacks-node: https://api.hiro.so
+bitcoin-node: http://blockstack:blockstacksystem@bitcoin.blockstack.com:8332
+plan:
+  batches:
+  - id: 0
+    transactions:
+    - transaction-type: contract-call
+      contract-id: SPMPMA1V6P430M8C91QS1G9XJ95S59JS1TZFZ4Q4.fastpool-max500-signer-manager
+      expected-sender: SPMPMA1V6P430M8C91QS1G9XJ95S59JS1TZFZ4Q4
+      method: register-self
+      cost: 5418
+      parameters:
+      - "'SPMPMA1V6P430M8C91QS1G9XJ95S59JS1TZFZ4Q4.fastpool-max500-signer-manager"
+      - 0x023d6e4adbd5e7bedd5a1e1b85940e1e8c6c34924fd0d584e5e15d84c8572083d9
+      - u94857398475934
+      - 0xa5c5fdd06e12df22cd5dec4c7a5986488440f2e309d2ff3e6dc104a46f764cec6568c9caee0bb4cb6cd81ccf7172ed657ba8de31f50d167c09cb07dd77d96fe201
+
+      
+        

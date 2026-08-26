@@ -21,8 +21,8 @@ const accounts = simnet.getAccounts();
 const deployer = accounts.get("deployer")!;
 const caller = accounts.get("wallet_1")!;
 
-const current = readFileSync("contracts/fastpool-signer-manager.clar", "utf8");
-const previous = execSync("git show :contracts/fastpool-signer-manager.clar", {
+const current = readFileSync("contracts/signer-manager-accounting-multi.clar", "utf8");
+const previous = execSync("git show :contracts/signer-manager-accounting-multi.clar", {
   encoding: "utf8",
 });
 

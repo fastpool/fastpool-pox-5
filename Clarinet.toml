@@ -10,7 +10,26 @@ requirements = [
     # minted into simnet accounts: sbtc-deposit is the protocol contract that
     # performs that genesis mint. Without it every account holds 0 sBTC and no
     # reward-payout test can run.
-    {contract_id = 'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-deposit'}
+    {contract_id = 'SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-deposit'},
+
+    # Live mainnet DEX venues for the sBTC -> STX swap. Pulled in so that
+    # `clarinet check` type-checks `contracts/dex-adapter-*.clar` against the
+    # real routers and pools: with every argument a literal, a wrong argument
+    # order or a wrong token is a compile error rather than a mainnet incident.
+    #
+    # Simnet deploys them with no liquidity, so they cannot be *executed* in a
+    # test -- `contracts/mock-dex-adapter.clar` covers runtime behaviour.
+    {contract_id = 'SM1FKXGNZJWSTWDWXQZJNF7B5TV5ZB235JTCXYXKD.dlmm-swap-router-v-1-2'},
+    {contract_id = 'SM1FKXGNZJWSTWDWXQZJNF7B5TV5ZB235JTCXYXKD.dlmm-pool-stx-sbtc-v-2-bps-15'},
+    {contract_id = 'SM1793C4R5PZ4NS4VQ4WMP7SKKYVH8JZEWSZ9HCCR.xyk-swap-helper-v-1-3'},
+    {contract_id = 'SM1793C4R5PZ4NS4VQ4WMP7SKKYVH8JZEWSZ9HCCR.xyk-pool-sbtc-stx-v-1-1'},
+    {contract_id = 'SM1793C4R5PZ4NS4VQ4WMP7SKKYVH8JZEWSZ9HCCR.token-stx-v-1-2'},
+
+    # Jing's sBTC/STX RFQ contract. Pulled in NOT as a swap venue -- a contract
+    # cannot be an RFQ client, see docs/plan-fastpool-stx-rewards.md §7 -- but
+    # for its `get-native-price`, the miner-commit baseline that
+    # contracts/price-oracle-jing.clar wraps.
+    {contract_id = 'SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.rfq-sbtc-stx-jing-v2-3'}
 ]
 
 # `fastpool-signer-manager` targets the CANONICAL pox-5 (per-staker reward model:
@@ -43,5 +62,48 @@ epoch = "4.0"
 
 [contracts.fastpool-signer-manager]
 path = "contracts/signer-manager-accounting-multi.clar"
+clarity_version = 6
+epoch = "4.0"
+
+[contracts.dex-traits]
+path = "contracts/dex-traits.clar"
+clarity_version = 6
+epoch = "4.0"
+
+# The STX-rewards signer manager: pox-5 rewards arrive as sBTC, get swapped on
+# a DEX, and are distributed to stackers as STX.
+[contracts.fastpool-stx-rewards]
+path = "contracts/stx-rewards.clar"
+clarity_version = 6
+epoch = "4.0"
+
+# Test-only support contracts.
+[contracts.price-oracle-dummy]
+path = "contracts/price-oracle-dummy.clar"
+clarity_version = 6
+epoch = "4.0"
+
+[contracts.mock-dex-adapter]
+path = "contracts/mock-dex-adapter.clar"
+clarity_version = 6
+epoch = "4.0"
+
+# Production swap adapters, one per venue. Each pins its router, pool and tokens
+# as literals, so the allowlist in `fastpool-stx-rewards` authorizes a specific
+# pool rather than a class of them.
+[contracts.dex-adapter-bitflow-dlmm]
+path = "contracts/dex-adapter-bitflow-dlmm.clar"
+clarity_version = 6
+epoch = "4.0"
+
+[contracts.dex-adapter-bitflow-xyk]
+path = "contracts/dex-adapter-bitflow-xyk.clar"
+clarity_version = 6
+epoch = "4.0"
+
+# The production baseline oracle: miner commits, read from Jing's RFQ contract.
+# Mainnet only -- it references a mainnet principal.
+[contracts.price-oracle-jing]
+path = "contracts/price-oracle-jing.clar"
 clarity_version = 6
 epoch = "4.0"

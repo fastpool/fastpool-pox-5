@@ -101,6 +101,28 @@ const NODE_REMAP = {
   [MAINNET_SBTC]: net.sbtc,
 };
 
+// Mainnet DEX venues pulled in as requirements only so that `clarinet check`
+// type-checks contracts/dex-adapter-*.clar against the real routers and pools.
+// They must NEVER be republished onto a test chain: they are large, they drag
+// their own dependency trees, and a copy with no liquidity is useless anyway.
+const SKIP_REQUIREMENT_PRINCIPALS = new Set([
+  'SM1FKXGNZJWSTWDWXQZJNF7B5TV5ZB235JTCXYXKD', // Bitflow DLMM
+  'SM1793C4R5PZ4NS4VQ4WMP7SKKYVH8JZEWSZ9HCCR', // Bitflow XYK + token-stx facade
+  'SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22',  // Jing RFQ (miner-commit price)
+]);
+
+// Contracts that exist only to drive the tests. Never deploy these anywhere.
+const TEST_ONLY = new Set(['mock-dex-adapter']);
+
+// Contracts that hard-code live mainnet DEX principals. Those contracts do not
+// exist on a test chain, so publishing an adapter there fails analysis. The
+// mock adapter stands in for them on testnet.
+const MAINNET_ONLY = new Set([
+  'dex-adapter-bitflow-dlmm',
+  'dex-adapter-bitflow-xyk',
+  'price-oracle-jing',
+]);
+
 // Build the ordered publish list: republished requirements first (only those the
 // node lacks), then local contracts. All sources are rewritten: NODE_REMAP
 // principals point at their on-node address, and any republished requirement's
@@ -112,6 +134,8 @@ function buildUnits() {
     const [principal, name] = id.split('.');
     // sBTC & co. already live on the node (via NODE_REMAP) — remap only, skip.
     if (NODE_REMAP[principal]) continue;
+    // DEX venues: check-only requirements, never published. See above.
+    if (SKIP_REQUIREMENT_PRINCIPALS.has(principal)) continue;
     remap[principal] = deployer;
     const meta = JSON.parse(readFileSync(`.cache/requirements/${id}.json`, 'utf8'));
     reqUnits.push({
@@ -122,11 +146,19 @@ function buildUnits() {
   }
   const applyRemap = (src) =>
     Object.entries(remap).reduce((s, [from, to]) => s.split(from).join(to), src);
-  const localUnits = parseContracts().map((c) => ({
-    name: c.name,
-    source: applyRemap(readFileSync(c.path, 'utf8')),
-    clarityVersion: c.clarityVersion,
-  }));
+  const skipped = [];
+  const localUnits = parseContracts()
+    .filter((c) => {
+      if (TEST_ONLY.has(c.name)) { skipped.push(`${c.name} (test-only)`); return false; }
+      if (MAINNET_ONLY.has(c.name)) { skipped.push(`${c.name} (mainnet-only)`); return false; }
+      return true;
+    })
+    .map((c) => ({
+      name: c.name,
+      source: applyRemap(readFileSync(c.path, 'utf8')),
+      clarityVersion: c.clarityVersion,
+    }));
+  if (skipped.length) console.log(`not publishing: ${skipped.join(', ')}`);
   reqUnits.forEach((u) => { u.source = applyRemap(u.source); });
   return [...reqUnits, ...localUnits];
 }
