@@ -9,7 +9,8 @@
     "test:report": "vitest run -- --coverage --costs",
     "test:watch": "chokidar \"tests/**/*.ts\" \"contracts/**/*.clar\" -c \"pnpm run test:report\"",
     "deploy:testnet": "./scripts/deploy-testnet.sh",
-    "deployment:from-tx": "node scripts/tx-to-deployment.mjs"
+    "deployment:from-tx": "node scripts/tx-to-deployment.mjs",
+    "build:claim-plan": "node scripts/build-claim-plan.mjs"
   },
   "author": "",
   "license": "ISC",
