@@ -266,3 +266,35 @@ REWARD_CYCLE=<n> node scripts/stx-rewards.mjs distribute
 - **`validate-stake!`'s bond refusal is untested.** Driving a real bond through
   pox-5 needs a bond-period fixture the test suite does not have. The guard is a
   single `asserts!` and is statically obvious, but it has not been executed.
+
+## 11. Swap-vault suite: deploy order
+
+The swap-vault signer `signer-manager-vault-stx-rewards` and its vault
+`fastpool-swap-vault` are a separate suite from the manager above. Both bind to
+`SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.juice-swap-vault-trait-v2`, which is
+`juice-swap-vault-trait` (v1, deployed at block 9021102) plus
+`(set-pyth-fee-budget (uint) (response bool uint))`. v1 cannot be extended, and
+neither contract compiles without v2 on chain.
+
+Publish in this order:
+
+1. `juice-swap-vault-trait-v2`, from `SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22`.
+   The source is `juicestx/contracts/pox-5/juice-swap-vault-trait-v2.clar`;
+   `contracts/juice-swap-vault-trait-v2.clar` here is a byte-identical mirror.
+   The fork sims refuse to run if the two differ. Juice's vault and signer bind
+   to the same trait, so this deploy happens once for both pools.
+2. `fastpool-swap-vault`: `impl-trait` v2.
+3. The swap-vault signer: `use-trait` v2. Deploy it as
+   `signer-manager-vault-stx-rewards` from the same deployer. The vault's `POOL`
+   constant names that contract, and the signer's `swap-vault` var defaults to
+   `.fastpool-swap-vault`.
+
+Pyth Lazer fee: the live oracle fee is u0, and the vault's `pyth-fee-budget`
+starts at u0. If Pyth governance raises the fee, the admin calls
+`set-vault-pyth-fee-budget(ustx, .fastpool-swap-vault)`. It is bounded at 10 STX.
+Set it to at least **1 x fee**: the market's `swap` (markets-sbtc-stx-jing-v6-3)
+verifies the update once and reuses the feeds, so each Jing fill inside the
+vault's `as-contract?` (jing-take, router-swap, router-swap-split) pays one fee.
+`finish` sends the vault's whole STX balance to the pool, so each batch starts
+with 0 STX. While the fee is above 0, send the vault a small STX float before the
+first Lazer-priced sale. The float goes to the pool at `finish`.

@@ -1,0 +1,189 @@
+simulation d1cf02c7d8e4ea6d4979acf22ee27b91
+amounts 1, 500, 1000, 2000
+
+deploy exact jing-core-v6
+        (ok true)
+deploy exact jing-ladder-v1
+        (ok true)
+deploy exact markets-sbtc-stx-jing-v6-3
+        (ok true)
+deploy exact swap-router-sbtc-stx-jing-v5-3
+        (ok true)
+Jing sync-seat-count
+        (ok u10)
+Jing set-verified-contract
+        (ok true)
+Jing initialize
+        (ok true)
+deploy juice-swap-vault-trait-v2
+        (ok true)
+deploy CityCoins book
+        (ok true)
+fast/1: deploy test copy
+        (ok true)
+fast/1: set-window-blocks u0
+        (ok true)
+fast/1: real token funding
+        (ok true)
+fast/1: fund 1 sats
+        (ok u1)
+fast/1: router-swap 1
+        (err u16047)
+fast/1: is-empty after
+        true
+fast/1: sBTC balance after
+        u1
+fast/500: deploy test copy
+        (ok true)
+fast/500: set-window-blocks u0
+        (ok true)
+fast/500: real token funding
+        (ok true)
+fast/500: fund 500 sats
+        (ok u500)
+fast/500: router-swap 500
+        (err u16047)
+fast/500: is-empty after
+        false
+fast/500: sBTC balance after
+        u500
+fast/1000: deploy test copy
+        (ok true)
+fast/1000: set-window-blocks u0
+        (ok true)
+fast/1000: real token funding
+        (ok true)
+fast/1000: fund 1000 sats
+        (ok u1000)
+fast/1000: router-swap 1000
+        (err u16047)
+fast/1000: is-empty after
+        false
+fast/1000: sBTC balance after
+        u1000
+fast/2000: deploy test copy
+        (ok true)
+fast/2000: set-window-blocks u0
+        (ok true)
+fast/2000: real token funding
+        (ok true)
+fast/2000: fund 2000 sats
+        (ok u2000)
+fast/2000: router-swap 2000
+        (err u16047)
+fast/2000: is-empty after
+        false
+fast/2000: sBTC balance after
+        u2000
+juice/1: deploy test copy
+        (ok true)
+juice/1: set-window-blocks u0
+        (ok true)
+juice/1: real token funding
+        (ok true)
+juice/1: fund 1 sats
+        (ok u1)
+juice/1: router-swap 1
+        (err u16047)
+juice/1: is-empty after
+        true
+juice/1: sBTC balance after
+        u1
+juice/500: deploy test copy
+        (ok true)
+juice/500: set-window-blocks u0
+        (ok true)
+juice/500: real token funding
+        (ok true)
+juice/500: fund 500 sats
+        (ok u500)
+juice/500: router-swap 500
+        (err u16047)
+juice/500: is-empty after
+        false
+juice/500: sBTC balance after
+        u500
+juice/1000: deploy test copy
+        (ok true)
+juice/1000: set-window-blocks u0
+        (ok true)
+juice/1000: real token funding
+        (ok true)
+juice/1000: fund 1000 sats
+        (ok u1000)
+juice/1000: router-swap 1000
+        (err u16047)
+juice/1000: is-empty after
+        false
+juice/1000: sBTC balance after
+        u1000
+juice/2000: deploy test copy
+        (ok true)
+juice/2000: set-window-blocks u0
+        (ok true)
+juice/2000: real token funding
+        (ok true)
+juice/2000: fund 2000 sats
+        (ok u2000)
+juice/2000: router-swap 2000
+        (err u16047)
+juice/2000: is-empty after
+        false
+juice/2000: sBTC balance after
+        u2000
+ccd016/1: deploy test copy
+        (ok true)
+ccd016/1: set-window-blocks u0
+        (ok true)
+ccd016/1: real token funding
+        (ok true)
+ccd016/1: fund 1 sats
+        (ok true)
+ccd016/1: router-swap 1
+        (err u16047)
+ccd016/1: is-empty after
+        true
+ccd016/1: sBTC balance after
+        u1
+ccd016/500: deploy test copy
+        (ok true)
+ccd016/500: set-window-blocks u0
+        (ok true)
+ccd016/500: real token funding
+        (ok true)
+ccd016/500: fund 500 sats
+        (ok true)
+ccd016/500: router-swap 500
+        (err u16047)
+ccd016/500: is-empty after
+        false
+ccd016/500: sBTC balance after
+        u500
+ccd016/1000: deploy test copy
+        (ok true)
+ccd016/1000: set-window-blocks u0
+        (ok true)
+ccd016/1000: real token funding
+        (ok true)
+ccd016/1000: fund 1000 sats
+        (ok true)
+ccd016/1000: router-swap 1000
+        (err u16047)
+ccd016/1000: is-empty after
+        false
+ccd016/1000: sBTC balance after
+        u1000
+ccd016/2000: deploy test copy
+        (ok true)
+ccd016/2000: set-window-blocks u0
+        (ok true)
+ccd016/2000: real token funding
+        (ok true)
+ccd016/2000: fund 2000 sats
+        (ok true)
+ccd016/2000: router-swap 2000
+        (err u16047)
+ccd016/2000: is-empty after
+        false
+ccd016/2000: sBTC balance after
+        u2000

@@ -1,0 +1,29 @@
+pass1 966b58ac2f2107a88471017cf931181b
+pass2 005b8306cd02f26a361a4cd4bdcae920
+mid 22734583419489
+limit 20461125077540
+
+     -  out=-  unsold=-
+        (ok u22734583419489)
+     1  out=u0  unsold=u1
+        (ok (tuple (dlmm-in u0) (dlmm-out u0) (jing-in u0) (jing-ok false) (jing-out u0) (out u0) (unsold u1) (velar-in u0) (velar-out u0) (xyk-in u0) (xyk-out u0)))
+     2  out=u0  unsold=u2
+        (ok (tuple (dlmm-in u0) (dlmm-out u0) (jing-in u0) (jing-ok false) (jing-out u0) (out u0) (unsold u2) (velar-in u0) (velar-out u0) (xyk-in u0) (xyk-out u0)))
+     3  out=-  unsold=-
+        (err none)
+  1000  out=-  unsold=-
+        (err none)
+  2000  out=-  unsold=-
+        (err none)
+  3000  out=-  unsold=-
+        (err none)
+  5000  out=-  unsold=-
+        (err none)
+  8000  out=-  unsold=-
+        (err none)
+  9000  out=-  unsold=-
+        (err none)
+  9500  out=-  unsold=-
+        (err none)
+ 10000  out=-  unsold=-
+        (err none)

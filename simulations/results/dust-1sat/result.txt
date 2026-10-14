@@ -1,0 +1,50 @@
+simulation 281a81d000feb084146097a006461f84
+
+PASS  deploy exact jing-core-v6
+        (ok true)
+PASS  deploy exact jing-ladder-v1
+        (ok true)
+PASS  deploy exact markets-sbtc-stx-jing-v6-3
+        (ok true)
+PASS  deploy exact swap-router-sbtc-stx-jing-v5-3
+        (ok true)
+PASS  Jing sync-seat-count
+        (ok u10)
+PASS  Jing set-verified-contract
+        (ok true)
+PASS  Jing initialize
+        (ok true)
+PASS  deploy juice-swap-vault-trait-v2
+        (ok true)
+PASS  1 sat(s): does the router actually sell it?
+        (ok (tuple (dlmm-in u0) (dlmm-out u0) (jing-in u0) (jing-ok false) (jing-out u0) (out u0) (unsold u1) (velar-in u0) (velar-out u0) (xyk-in u0) (xyk-out u0)))
+PASS  2 sat(s): does the router actually sell it?
+        (ok (tuple (dlmm-in u0) (dlmm-out u0) (jing-in u0) (jing-ok false) (jing-out u0) (out u0) (unsold u2) (velar-in u0) (velar-out u0) (xyk-in u0) (xyk-out u0)))
+PASS  3 sat(s): does the router actually sell it?
+        (ok (tuple (dlmm-in u3) (dlmm-out u5715) (jing-in u0) (jing-ok false) (jing-out u0) (out u5715) (unsold u0) (velar-in u0) (velar-out u0) (xyk-in u0) (xyk-out u0)))
+PASS  10 sat(s): does the router actually sell it?
+        (ok (tuple (dlmm-in u10) (dlmm-out u19050) (jing-in u0) (jing-ok false) (jing-out u0) (out u19050) (unsold u0) (velar-in u0) (velar-out u0) (xyk-in u0) (xyk-out u0)))
+PASS  100 sat(s): does the router actually sell it?
+        (ok (tuple (dlmm-in u100) (dlmm-out u190508) (jing-in u0) (jing-ok false) (jing-out u0) (out u190508) (unsold u0) (velar-in u0) (velar-out u0) (xyk-in u0) (xyk-out u0)))
+PASS  1000 sat(s): does the router actually sell it?
+        (ok (tuple (dlmm-in u1000) (dlmm-out u1895563) (jing-in u0) (jing-ok false) (jing-out u0) (out u1895563) (unsold u0) (velar-in u0) (velar-out u0) (xyk-in u0) (xyk-out u0)))
+PASS  10000 sat(s): does the router actually sell it?
+        (ok (tuple (dlmm-in u10000) (dlmm-out u18948742) (jing-in u0) (jing-ok false) (jing-out u0) (out u18948742) (unsold u0) (velar-in u0) (velar-out u0) (xyk-in u0) (xyk-out u0)))
+PASS  deploy dust-vault-unfixed
+        (ok true)
+PASS  deploy dust-vault-fixed
+        (ok true)
+PASS  unfixed vault starts empty
+        true
+PASS  fixed vault starts empty
+        true
+PASS  donate 1 sat to the unfixed vault
+        (ok true)
+PASS  donate 1 sat to the fixed vault
+        (ok true)
+PASS  UNFIXED: 1 sat makes it look non-empty, so the batch cannot close
+        false
+PASS  FIXED: 1 sat is tolerated, the batch can close
+        true
+
+23/23

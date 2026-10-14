@@ -1,0 +1,4652 @@
+{
+  "kind": "fastpool",
+  "forkBlock": null,
+  "reports": [
+    {
+      "shape": "pending",
+      "route": "pool",
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "url": "https://stxer.xyz/simulations/mainnet/5c06bdecdacd4c3198569889adcc165e",
+      "checks": 114
+    },
+    {
+      "shape": "resting",
+      "route": "pool",
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "url": "https://stxer.xyz/simulations/mainnet/e4a1c29a06df3c357de37a4b52a969e1",
+      "checks": 103
+    },
+    {
+      "shape": "parked",
+      "route": "pool",
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "url": "https://stxer.xyz/simulations/mainnet/8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "checks": 132
+    },
+    {
+      "shape": "pending+resting",
+      "route": "pool",
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "url": "https://stxer.xyz/simulations/mainnet/7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "checks": 126
+    },
+    {
+      "shape": "none",
+      "route": "pool",
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "url": "https://stxer.xyz/simulations/mainnet/a6ba5533ce2fbb6352758ad8caadb89d",
+      "checks": 99
+    }
+  ],
+  "checks": [
+    {
+      "label": "fastpool/pending/pool: deploy exact jing-core-v6",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 1
+    },
+    {
+      "label": "fastpool/pending/pool: deploy exact jing-ladder-v1",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 2
+    },
+    {
+      "label": "fastpool/pending/pool: deploy exact markets-sbtc-stx-jing-v6-3",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 3
+    },
+    {
+      "label": "fastpool/pending/pool: deploy exact swap-router-sbtc-stx-jing-v5-3",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 4
+    },
+    {
+      "label": "fastpool/pending/pool: Jing sync-seat-count",
+      "actual": "(ok u10)",
+      "expected": "(ok u10)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 5
+    },
+    {
+      "label": "fastpool/pending/pool: Jing set-verified-contract",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 6
+    },
+    {
+      "label": "fastpool/pending/pool: Jing initialize",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 7
+    },
+    {
+      "label": "fastpool/pending/pool: deploy juice-swap-vault-trait-v2",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 8
+    },
+    {
+      "label": "fastpool/pending/pool: deploy fastpool-swap-vault",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 9
+    },
+    {
+      "label": "fastpool/pending/pool: deploy signer-manager-vault-stx-rewards",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 10
+    },
+    {
+      "label": "fastpool/pending/pool/normal: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 13
+    },
+    {
+      "label": "fastpool/pending/pool/normal: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 14
+    },
+    {
+      "label": "fastpool/pending/pool/normal: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 15
+    },
+    {
+      "label": "fastpool/pending/pool/normal: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 16
+    },
+    {
+      "label": "fastpool/pending/pool/normal: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 17
+    },
+    {
+      "label": "fastpool/pending/pool/normal: noncrossing opposite book",
+      "actual": "(ok u6000000)",
+      "expected": "(ok u6000000)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 18
+    },
+    {
+      "label": "fastpool/pending/pool/normal: jing-place creates requested inventory",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18213376784055)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 20
+    },
+    {
+      "label": "fastpool/pending/pool/normal: pending amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 21
+    },
+    {
+      "label": "fastpool/pending/pool/normal: live amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 22
+    },
+    {
+      "label": "fastpool/pending/pool/normal: parked amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 23
+    },
+    {
+      "label": "fastpool/pending/pool/normal: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 24
+    },
+    {
+      "label": "fastpool/pending/pool/normal: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 25
+    },
+    {
+      "label": "fastpool/pending/pool/normal: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 26
+    },
+    {
+      "label": "fastpool/pending/pool/normal: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 27
+    },
+    {
+      "label": "fastpool/pending/pool/normal: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u100000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 29
+    },
+    {
+      "label": "fastpool/pending/pool/normal: recovery response amount exact",
+      "actual": "100000",
+      "expected": "100000",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 29
+    },
+    {
+      "label": "fastpool/pending/pool/normal: pool or treasury receives exact total",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 30
+    },
+    {
+      "label": "fastpool/pending/pool/normal: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 31
+    },
+    {
+      "label": "fastpool/pending/pool/normal: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 32
+    },
+    {
+      "label": "fastpool/pending/pool/normal: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 33
+    },
+    {
+      "label": "fastpool/pending/pool/normal: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 34
+    },
+    {
+      "label": "fastpool/pending/pool/normal: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 35
+    },
+    {
+      "label": "fastpool/pending/pool/normal: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 36
+    },
+    {
+      "label": "fastpool/pending/pool/normal: cancel reason and exact pending refund event",
+      "actual": "(tuple (amount u100000) (depositor SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.fastpool-swap-vault) (event \"pending-refund-x\") (market SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.markets-sbtc-stx-jing-v6-3) (price u0) (reason \"cancel\") (token-x SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token) (token-y SM1793C4R5PZ4NS4VQ4WMP7SKKYVH8JZEWSZ9HCCR.token-stx-v-1-2))",
+      "expected": "s=>s.includes('(event \"pending-refund-x\")')&&s.includes('(reason \"cancel\")')&&s.includes(`(amount u${pendingAmount})`)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 36
+    },
+    {
+      "label": "fastpool/pending/pool/normal: remove opposite seed",
+      "actual": "(ok u6000000)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 37
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 40
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 41
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 42
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 43
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 44
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: noncrossing opposite book",
+      "actual": "(ok u6000000)",
+      "expected": "(ok u6000000)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 45
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: jing-place creates requested inventory",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18213578300406)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 47
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: pending amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 48
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: live amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 49
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: parked amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 50
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 51
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 52
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 53
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 54
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u100000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 56
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: recovery response amount exact",
+      "actual": "100000",
+      "expected": "100000",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 56
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: pool or treasury receives exact total",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 57
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 58
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 59
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 60
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 61
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 62
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 63
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: cancel reason and exact pending refund event",
+      "actual": "(tuple (amount u100000) (depositor SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.fastpool-swap-vault) (event \"pending-refund-x\") (market SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.markets-sbtc-stx-jing-v6-3) (price u0) (reason \"cancel\") (token-x SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token) (token-y SM1793C4R5PZ4NS4VQ4WMP7SKKYVH8JZEWSZ9HCCR.token-stx-v-1-2))",
+      "expected": "s=>s.includes('(event \"pending-refund-x\")')&&s.includes('(reason \"cancel\")')&&s.includes(`(amount u${pendingAmount})`)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 63
+    },
+    {
+      "label": "fastpool/pending/pool/no-update: remove opposite seed",
+      "actual": "(ok u6000000)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 64
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 67
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 68
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 69
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 70
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 71
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: noncrossing opposite book",
+      "actual": "(ok u6000000)",
+      "expected": "(ok u6000000)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 72
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: jing-place creates requested inventory",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18196024433650)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 74
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: pending amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 75
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: live amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 76
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: parked amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 77
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 78
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 79
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 80
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 81
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: pause market",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 82
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u100000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 84
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: recovery response amount exact",
+      "actual": "100000",
+      "expected": "100000",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 84
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: pool or treasury receives exact total",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 85
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 86
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 87
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 88
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 89
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 90
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 91
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: cancel reason and exact pending refund event",
+      "actual": "(tuple (amount u100000) (depositor SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.fastpool-swap-vault) (event \"pending-refund-x\") (market SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.markets-sbtc-stx-jing-v6-3) (price u0) (reason \"cancel\") (token-x SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token) (token-y SM1793C4R5PZ4NS4VQ4WMP7SKKYVH8JZEWSZ9HCCR.token-stx-v-1-2))",
+      "expected": "s=>s.includes('(event \"pending-refund-x\")')&&s.includes('(reason \"cancel\")')&&s.includes(`(amount u${pendingAmount})`)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 91
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: recovery leaves market paused",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 92
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: unpause for next setup",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 93
+    },
+    {
+      "label": "fastpool/pending/pool/market-paused: remove opposite seed",
+      "actual": "(ok u6000000)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 94
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 97
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 98
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 99
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 100
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 101
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: noncrossing opposite book",
+      "actual": "(ok u6000000)",
+      "expected": "(ok u6000000)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 102
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: jing-place creates requested inventory",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18194556107841)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 104
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: pending amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 105
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: live amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 106
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: parked amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 107
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 108
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 109
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 110
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 111
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: pause core-v6",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 112
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u100000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 114
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: recovery response amount exact",
+      "actual": "100000",
+      "expected": "100000",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 114
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: pool or treasury receives exact total",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 115
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 116
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 117
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 118
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 119
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 120
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 121
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: cancel reason and exact pending refund event",
+      "actual": "(tuple (amount u100000) (depositor SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.fastpool-swap-vault) (event \"pending-refund-x\") (market SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.markets-sbtc-stx-jing-v6-3) (price u0) (reason \"cancel\") (token-x SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token) (token-y SM1793C4R5PZ4NS4VQ4WMP7SKKYVH8JZEWSZ9HCCR.token-stx-v-1-2))",
+      "expected": "s=>s.includes('(event \"pending-refund-x\")')&&s.includes('(reason \"cancel\")')&&s.includes(`(amount u${pendingAmount})`)",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 121
+    },
+    {
+      "label": "fastpool/pending/pool/core-paused: recovery leaves core paused",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "5c06bdecdacd4c3198569889adcc165e",
+      "step": 122
+    },
+    {
+      "label": "fastpool/resting/pool: deploy exact jing-core-v6",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 1
+    },
+    {
+      "label": "fastpool/resting/pool: deploy exact jing-ladder-v1",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 2
+    },
+    {
+      "label": "fastpool/resting/pool: deploy exact markets-sbtc-stx-jing-v6-3",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 3
+    },
+    {
+      "label": "fastpool/resting/pool: deploy exact swap-router-sbtc-stx-jing-v5-3",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 4
+    },
+    {
+      "label": "fastpool/resting/pool: Jing sync-seat-count",
+      "actual": "(ok u10)",
+      "expected": "(ok u10)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 5
+    },
+    {
+      "label": "fastpool/resting/pool: Jing set-verified-contract",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 6
+    },
+    {
+      "label": "fastpool/resting/pool: Jing initialize",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 7
+    },
+    {
+      "label": "fastpool/resting/pool: deploy juice-swap-vault-trait-v2",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 8
+    },
+    {
+      "label": "fastpool/resting/pool: deploy fastpool-swap-vault",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 9
+    },
+    {
+      "label": "fastpool/resting/pool: deploy signer-manager-vault-stx-rewards",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 10
+    },
+    {
+      "label": "fastpool/resting/pool/normal: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 13
+    },
+    {
+      "label": "fastpool/resting/pool/normal: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 14
+    },
+    {
+      "label": "fastpool/resting/pool/normal: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 15
+    },
+    {
+      "label": "fastpool/resting/pool/normal: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 16
+    },
+    {
+      "label": "fastpool/resting/pool/normal: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 17
+    },
+    {
+      "label": "fastpool/resting/pool/normal: jing-place creates requested inventory",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18196423111040)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 18
+    },
+    {
+      "label": "fastpool/resting/pool/normal: pending amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 19
+    },
+    {
+      "label": "fastpool/resting/pool/normal: live amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 20
+    },
+    {
+      "label": "fastpool/resting/pool/normal: parked amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 21
+    },
+    {
+      "label": "fastpool/resting/pool/normal: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 22
+    },
+    {
+      "label": "fastpool/resting/pool/normal: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 23
+    },
+    {
+      "label": "fastpool/resting/pool/normal: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 24
+    },
+    {
+      "label": "fastpool/resting/pool/normal: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 25
+    },
+    {
+      "label": "fastpool/resting/pool/normal: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u100000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 27
+    },
+    {
+      "label": "fastpool/resting/pool/normal: recovery response amount exact",
+      "actual": "100000",
+      "expected": "100000",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 27
+    },
+    {
+      "label": "fastpool/resting/pool/normal: pool or treasury receives exact total",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 28
+    },
+    {
+      "label": "fastpool/resting/pool/normal: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 29
+    },
+    {
+      "label": "fastpool/resting/pool/normal: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 30
+    },
+    {
+      "label": "fastpool/resting/pool/normal: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 31
+    },
+    {
+      "label": "fastpool/resting/pool/normal: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 32
+    },
+    {
+      "label": "fastpool/resting/pool/normal: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 33
+    },
+    {
+      "label": "fastpool/resting/pool/normal: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 34
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 37
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 38
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 39
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 40
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 41
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: jing-place creates requested inventory",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18195825394160)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 42
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: pending amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 43
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: live amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 44
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: parked amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 45
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 46
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 47
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 48
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 49
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u100000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 51
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: recovery response amount exact",
+      "actual": "100000",
+      "expected": "100000",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 51
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: pool or treasury receives exact total",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 52
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 53
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 54
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 55
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 56
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 57
+    },
+    {
+      "label": "fastpool/resting/pool/no-update: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 58
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 61
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 62
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 63
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 64
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 65
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: jing-place creates requested inventory",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18180525516152)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 66
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: pending amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 67
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: live amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 68
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: parked amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 69
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 70
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 71
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 72
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 73
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: pause market",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 74
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u100000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 76
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: recovery response amount exact",
+      "actual": "100000",
+      "expected": "100000",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 76
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: pool or treasury receives exact total",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 77
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 78
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 79
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 80
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 81
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 82
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 83
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: recovery leaves market paused",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 84
+    },
+    {
+      "label": "fastpool/resting/pool/market-paused: unpause for next setup",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 85
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 88
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 89
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 90
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 91
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 92
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: jing-place creates requested inventory",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18184983054217)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 93
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: pending amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 94
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: live amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 95
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: parked amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 96
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 97
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 98
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 99
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 100
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: pause core-v6",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 101
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u100000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 103
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: recovery response amount exact",
+      "actual": "100000",
+      "expected": "100000",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 103
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: pool or treasury receives exact total",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 104
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 105
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 106
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 107
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 108
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 109
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 110
+    },
+    {
+      "label": "fastpool/resting/pool/core-paused: recovery leaves core paused",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "e4a1c29a06df3c357de37a4b52a969e1",
+      "step": 111
+    },
+    {
+      "label": "fastpool/parked/pool: deploy exact jing-core-v6",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 1
+    },
+    {
+      "label": "fastpool/parked/pool: deploy exact jing-ladder-v1",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 2
+    },
+    {
+      "label": "fastpool/parked/pool: deploy exact markets-sbtc-stx-jing-v6-3",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 3
+    },
+    {
+      "label": "fastpool/parked/pool: deploy exact swap-router-sbtc-stx-jing-v5-3",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 4
+    },
+    {
+      "label": "fastpool/parked/pool: Jing sync-seat-count",
+      "actual": "(ok u10)",
+      "expected": "(ok u10)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 5
+    },
+    {
+      "label": "fastpool/parked/pool: Jing set-verified-contract",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 6
+    },
+    {
+      "label": "fastpool/parked/pool: Jing initialize",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 7
+    },
+    {
+      "label": "fastpool/parked/pool: deploy juice-swap-vault-trait-v2",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 8
+    },
+    {
+      "label": "fastpool/parked/pool: deploy fastpool-swap-vault",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 9
+    },
+    {
+      "label": "fastpool/parked/pool: deploy signer-manager-vault-stx-rewards",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 10
+    },
+    {
+      "label": "fastpool/parked/pool/normal: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 13
+    },
+    {
+      "label": "fastpool/parked/pool/normal: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 14
+    },
+    {
+      "label": "fastpool/parked/pool/normal: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 15
+    },
+    {
+      "label": "fastpool/parked/pool/normal: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 16
+    },
+    {
+      "label": "fastpool/parked/pool/normal: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 17
+    },
+    {
+      "label": "fastpool/parked/pool/normal: jing-place creates requested inventory",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18177889687628)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 18
+    },
+    {
+      "label": "fastpool/parked/pool/normal: reserve 49 seats using public ladder setter",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 19
+    },
+    {
+      "label": "fastpool/parked/pool/normal: sync reservation",
+      "actual": "(ok u49)",
+      "expected": "(ok u49)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 20
+    },
+    {
+      "label": "fastpool/parked/pool/normal: larger entrant submits for occupied seat",
+      "actual": "(ok u200000)",
+      "expected": "(ok u200000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 21
+    },
+    {
+      "label": "fastpool/parked/pool/normal: settle entrant and park incumbent",
+      "actual": "(ok u200000)",
+      "expected": "(ok u200000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 22
+    },
+    {
+      "label": "fastpool/parked/pool/normal: vault is really parked",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 23
+    },
+    {
+      "label": "fastpool/parked/pool/normal: pending amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 24
+    },
+    {
+      "label": "fastpool/parked/pool/normal: live amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 25
+    },
+    {
+      "label": "fastpool/parked/pool/normal: parked amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 26
+    },
+    {
+      "label": "fastpool/parked/pool/normal: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 27
+    },
+    {
+      "label": "fastpool/parked/pool/normal: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 28
+    },
+    {
+      "label": "fastpool/parked/pool/normal: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 29
+    },
+    {
+      "label": "fastpool/parked/pool/normal: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 30
+    },
+    {
+      "label": "fastpool/parked/pool/normal: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u100000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 32
+    },
+    {
+      "label": "fastpool/parked/pool/normal: recovery response amount exact",
+      "actual": "100000",
+      "expected": "100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 32
+    },
+    {
+      "label": "fastpool/parked/pool/normal: pool or treasury receives exact total",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 33
+    },
+    {
+      "label": "fastpool/parked/pool/normal: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 34
+    },
+    {
+      "label": "fastpool/parked/pool/normal: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 35
+    },
+    {
+      "label": "fastpool/parked/pool/normal: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 36
+    },
+    {
+      "label": "fastpool/parked/pool/normal: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 37
+    },
+    {
+      "label": "fastpool/parked/pool/normal: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 38
+    },
+    {
+      "label": "fastpool/parked/pool/normal: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 39
+    },
+    {
+      "label": "fastpool/parked/pool/normal: remove larger entrant",
+      "actual": "(ok u200000)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 40
+    },
+    {
+      "label": "fastpool/parked/pool/normal: restore reservation",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 41
+    },
+    {
+      "label": "fastpool/parked/pool/normal: sync restored reservation",
+      "actual": "(ok u10)",
+      "expected": "(ok u10)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 42
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 45
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 46
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 47
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 48
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 49
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: jing-place creates requested inventory",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18181889628194)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 50
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: reserve 49 seats using public ladder setter",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 51
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: sync reservation",
+      "actual": "(ok u49)",
+      "expected": "(ok u49)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 52
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: larger entrant submits for occupied seat",
+      "actual": "(ok u200000)",
+      "expected": "(ok u200000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 53
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: settle entrant and park incumbent",
+      "actual": "(ok u200000)",
+      "expected": "(ok u200000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 54
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: vault is really parked",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 55
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: pending amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 56
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: live amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 57
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: parked amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 58
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 59
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 60
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 61
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 62
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u100000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 64
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: recovery response amount exact",
+      "actual": "100000",
+      "expected": "100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 64
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: pool or treasury receives exact total",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 65
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 66
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 67
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 68
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 69
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 70
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 71
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: remove larger entrant",
+      "actual": "(ok u200000)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 72
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: restore reservation",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 73
+    },
+    {
+      "label": "fastpool/parked/pool/no-update: sync restored reservation",
+      "actual": "(ok u10)",
+      "expected": "(ok u10)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 74
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 77
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 78
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 79
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 80
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 81
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: jing-place creates requested inventory",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18180340156242)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 82
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: reserve 49 seats using public ladder setter",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 83
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: sync reservation",
+      "actual": "(ok u49)",
+      "expected": "(ok u49)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 84
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: larger entrant submits for occupied seat",
+      "actual": "(ok u200000)",
+      "expected": "(ok u200000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 85
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: settle entrant and park incumbent",
+      "actual": "(ok u200000)",
+      "expected": "(ok u200000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 86
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: vault is really parked",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 87
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: pending amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 88
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: live amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 89
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: parked amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 90
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 91
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 92
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 93
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 94
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: pause market",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 95
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u100000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 97
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: recovery response amount exact",
+      "actual": "100000",
+      "expected": "100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 97
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: pool or treasury receives exact total",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 98
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 99
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 100
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 101
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 102
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 103
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 104
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: recovery leaves market paused",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 105
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: unpause for next setup",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 106
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: remove larger entrant",
+      "actual": "(ok u200000)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 107
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: restore reservation",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 108
+    },
+    {
+      "label": "fastpool/parked/pool/market-paused: sync restored reservation",
+      "actual": "(ok u10)",
+      "expected": "(ok u10)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 109
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 112
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 113
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 114
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 115
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 116
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: jing-place creates requested inventory",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18179877684514)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 117
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: reserve 49 seats using public ladder setter",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 118
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: sync reservation",
+      "actual": "(ok u49)",
+      "expected": "(ok u49)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 119
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: larger entrant submits for occupied seat",
+      "actual": "(ok u200000)",
+      "expected": "(ok u200000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 120
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: settle entrant and park incumbent",
+      "actual": "(ok u200000)",
+      "expected": "(ok u200000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 121
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: vault is really parked",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 122
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: pending amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 123
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: live amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 124
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: parked amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 125
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 126
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 127
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 128
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 129
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: pause core-v6",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 130
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u100000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 132
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: recovery response amount exact",
+      "actual": "100000",
+      "expected": "100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 132
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: pool or treasury receives exact total",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 133
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 134
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 135
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 136
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 137
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 138
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 139
+    },
+    {
+      "label": "fastpool/parked/pool/core-paused: recovery leaves core paused",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "8a3aa57b5a87bc5ce3692f527a4ef17f",
+      "step": 140
+    },
+    {
+      "label": "fastpool/pending+resting/pool: deploy exact jing-core-v6",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 1
+    },
+    {
+      "label": "fastpool/pending+resting/pool: deploy exact jing-ladder-v1",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 2
+    },
+    {
+      "label": "fastpool/pending+resting/pool: deploy exact markets-sbtc-stx-jing-v6-3",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 3
+    },
+    {
+      "label": "fastpool/pending+resting/pool: deploy exact swap-router-sbtc-stx-jing-v5-3",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 4
+    },
+    {
+      "label": "fastpool/pending+resting/pool: Jing sync-seat-count",
+      "actual": "(ok u10)",
+      "expected": "(ok u10)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 5
+    },
+    {
+      "label": "fastpool/pending+resting/pool: Jing set-verified-contract",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 6
+    },
+    {
+      "label": "fastpool/pending+resting/pool: Jing initialize",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 7
+    },
+    {
+      "label": "fastpool/pending+resting/pool: deploy juice-swap-vault-trait-v2",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 8
+    },
+    {
+      "label": "fastpool/pending+resting/pool: deploy fastpool-swap-vault",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 9
+    },
+    {
+      "label": "fastpool/pending+resting/pool: deploy signer-manager-vault-stx-rewards",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 10
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 13
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 14
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 15
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 16
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 17
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: jing-place creates requested inventory",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18180148063555)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 18
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: noncrossing opposite book",
+      "actual": "(ok u6000000)",
+      "expected": "(ok u6000000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 19
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: settle opposite seed",
+      "actual": "(ok u6000000)",
+      "expected": "(ok u6000000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 21
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: second funded portion",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 22
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: jing-place submits top-up",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18180148063555)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 23
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: pending amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 24
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: live amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 25
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: parked amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 26
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 27
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 28
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 29
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 30
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u200000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 32
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: recovery response amount exact",
+      "actual": "200000",
+      "expected": "200000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 32
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: pool or treasury receives exact total",
+      "actual": "u200000",
+      "expected": "u200000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 33
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 34
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 35
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 36
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 37
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 38
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 39
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: cancel reason and exact pending refund event",
+      "actual": "(tuple (amount u100000) (depositor SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.fastpool-swap-vault) (event \"pending-refund-x\") (market SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.markets-sbtc-stx-jing-v6-3) (price u0) (reason \"cancel\") (token-x SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token) (token-y SM1793C4R5PZ4NS4VQ4WMP7SKKYVH8JZEWSZ9HCCR.token-stx-v-1-2)) | (tuple (amount u100000) (cycle u0) (depositor SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.fastpool-swap-vault) (equity-x u0) (event \"refund-x\") (market SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.markets-sbtc-stx-jing-v6-3) (token-x SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token) (token-y SM1793C4R5PZ4NS4VQ4WMP7SKKYVH8JZEWSZ9HCCR.token-stx-v-1-2))",
+      "expected": "s=>s.includes('(event \"pending-refund-x\")')&&s.includes('(reason \"cancel\")')&&s.includes(`(amount u${pendingAmount})`)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 39
+    },
+    {
+      "label": "fastpool/pending+resting/pool/normal: remove opposite seed",
+      "actual": "(ok u6000000)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 40
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 43
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 44
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 45
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 46
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 47
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: jing-place creates requested inventory",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18179207858961)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 48
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: noncrossing opposite book",
+      "actual": "(ok u6000000)",
+      "expected": "(ok u6000000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 49
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: settle opposite seed",
+      "actual": "(ok u6000000)",
+      "expected": "(ok u6000000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 51
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: second funded portion",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 52
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: jing-place submits top-up",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18179207858961)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 53
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: pending amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 54
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: live amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 55
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: parked amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 56
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 57
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 58
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 59
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 60
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u200000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 62
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: recovery response amount exact",
+      "actual": "200000",
+      "expected": "200000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 62
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: pool or treasury receives exact total",
+      "actual": "u200000",
+      "expected": "u200000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 63
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 64
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 65
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 66
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 67
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 68
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 69
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: cancel reason and exact pending refund event",
+      "actual": "(tuple (amount u100000) (depositor SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.fastpool-swap-vault) (event \"pending-refund-x\") (market SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.markets-sbtc-stx-jing-v6-3) (price u0) (reason \"cancel\") (token-x SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token) (token-y SM1793C4R5PZ4NS4VQ4WMP7SKKYVH8JZEWSZ9HCCR.token-stx-v-1-2)) | (tuple (amount u100000) (cycle u0) (depositor SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.fastpool-swap-vault) (equity-x u0) (event \"refund-x\") (market SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.markets-sbtc-stx-jing-v6-3) (token-x SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token) (token-y SM1793C4R5PZ4NS4VQ4WMP7SKKYVH8JZEWSZ9HCCR.token-stx-v-1-2))",
+      "expected": "s=>s.includes('(event \"pending-refund-x\")')&&s.includes('(reason \"cancel\")')&&s.includes(`(amount u${pendingAmount})`)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 69
+    },
+    {
+      "label": "fastpool/pending+resting/pool/no-update: remove opposite seed",
+      "actual": "(ok u6000000)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 70
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 73
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 74
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 75
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 76
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 77
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: jing-place creates requested inventory",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18178588775907)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 78
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: noncrossing opposite book",
+      "actual": "(ok u6000000)",
+      "expected": "(ok u6000000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 79
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: settle opposite seed",
+      "actual": "(ok u6000000)",
+      "expected": "(ok u6000000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 81
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: second funded portion",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 82
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: jing-place submits top-up",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18178588775907)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 83
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: pending amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 84
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: live amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 85
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: parked amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 86
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 87
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 88
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 89
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 90
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: pause market",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 91
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u200000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 93
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: recovery response amount exact",
+      "actual": "200000",
+      "expected": "200000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 93
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: pool or treasury receives exact total",
+      "actual": "u200000",
+      "expected": "u200000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 94
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 95
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 96
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 97
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 98
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 99
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 100
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: cancel reason and exact pending refund event",
+      "actual": "(tuple (amount u100000) (depositor SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.fastpool-swap-vault) (event \"pending-refund-x\") (market SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.markets-sbtc-stx-jing-v6-3) (price u0) (reason \"cancel\") (token-x SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token) (token-y SM1793C4R5PZ4NS4VQ4WMP7SKKYVH8JZEWSZ9HCCR.token-stx-v-1-2)) | (tuple (amount u100000) (cycle u0) (depositor SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.fastpool-swap-vault) (equity-x u0) (event \"refund-x\") (market SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.markets-sbtc-stx-jing-v6-3) (token-x SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token) (token-y SM1793C4R5PZ4NS4VQ4WMP7SKKYVH8JZEWSZ9HCCR.token-stx-v-1-2))",
+      "expected": "s=>s.includes('(event \"pending-refund-x\")')&&s.includes('(reason \"cancel\")')&&s.includes(`(amount u${pendingAmount})`)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 100
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: recovery leaves market paused",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 101
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: unpause for next setup",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 102
+    },
+    {
+      "label": "fastpool/pending+resting/pool/market-paused: remove opposite seed",
+      "actual": "(ok u6000000)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 103
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 106
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 107
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 108
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 109
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 110
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: jing-place creates requested inventory",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18178333181918)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 111
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: noncrossing opposite book",
+      "actual": "(ok u6000000)",
+      "expected": "(ok u6000000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 112
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: settle opposite seed",
+      "actual": "(ok u6000000)",
+      "expected": "(ok u6000000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 114
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: second funded portion",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 115
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: jing-place submits top-up",
+      "actual": "(ok (tuple (notification \"jing-place\") (payload (tuple (amount u100000) (floor u18178333181918)))))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 116
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: pending amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 117
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: live amount exact",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 118
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: parked amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 119
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 120
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 121
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 122
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 123
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: pause core-v6",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 124
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u200000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 126
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: recovery response amount exact",
+      "actual": "200000",
+      "expected": "200000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 126
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: pool or treasury receives exact total",
+      "actual": "u200000",
+      "expected": "u200000",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 127
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 128
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 129
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 130
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 131
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 132
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 133
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: cancel reason and exact pending refund event",
+      "actual": "(tuple (amount u100000) (depositor SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.fastpool-swap-vault) (event \"pending-refund-x\") (market SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.markets-sbtc-stx-jing-v6-3) (price u0) (reason \"cancel\") (token-x SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token) (token-y SM1793C4R5PZ4NS4VQ4WMP7SKKYVH8JZEWSZ9HCCR.token-stx-v-1-2)) | (tuple (amount u100000) (cycle u0) (depositor SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.fastpool-swap-vault) (equity-x u0) (event \"refund-x\") (market SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.markets-sbtc-stx-jing-v6-3) (token-x SM3VDXK3WZZSA84XXFKAFAF15NNZX32CTSG82JFQ4.sbtc-token) (token-y SM1793C4R5PZ4NS4VQ4WMP7SKKYVH8JZEWSZ9HCCR.token-stx-v-1-2))",
+      "expected": "s=>s.includes('(event \"pending-refund-x\")')&&s.includes('(reason \"cancel\")')&&s.includes(`(amount u${pendingAmount})`)",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 133
+    },
+    {
+      "label": "fastpool/pending+resting/pool/core-paused: recovery leaves core paused",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "7b30ac89ae4f9b1206e81d6f90f8fbd2",
+      "step": 134
+    },
+    {
+      "label": "fastpool/none/pool: deploy exact jing-core-v6",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 1
+    },
+    {
+      "label": "fastpool/none/pool: deploy exact jing-ladder-v1",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 2
+    },
+    {
+      "label": "fastpool/none/pool: deploy exact markets-sbtc-stx-jing-v6-3",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 3
+    },
+    {
+      "label": "fastpool/none/pool: deploy exact swap-router-sbtc-stx-jing-v5-3",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 4
+    },
+    {
+      "label": "fastpool/none/pool: Jing sync-seat-count",
+      "actual": "(ok u10)",
+      "expected": "(ok u10)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 5
+    },
+    {
+      "label": "fastpool/none/pool: Jing set-verified-contract",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 6
+    },
+    {
+      "label": "fastpool/none/pool: Jing initialize",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 7
+    },
+    {
+      "label": "fastpool/none/pool: deploy juice-swap-vault-trait-v2",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 8
+    },
+    {
+      "label": "fastpool/none/pool: deploy fastpool-swap-vault",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 9
+    },
+    {
+      "label": "fastpool/none/pool: deploy signer-manager-vault-stx-rewards",
+      "actual": "(ok true)",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 10
+    },
+    {
+      "label": "fastpool/none/pool/normal: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 13
+    },
+    {
+      "label": "fastpool/none/pool/normal: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 14
+    },
+    {
+      "label": "fastpool/none/pool/normal: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 15
+    },
+    {
+      "label": "fastpool/none/pool/normal: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 16
+    },
+    {
+      "label": "fastpool/none/pool/normal: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 17
+    },
+    {
+      "label": "fastpool/none/pool/normal: pending amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 18
+    },
+    {
+      "label": "fastpool/none/pool/normal: live amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 19
+    },
+    {
+      "label": "fastpool/none/pool/normal: parked amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 20
+    },
+    {
+      "label": "fastpool/none/pool/normal: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 21
+    },
+    {
+      "label": "fastpool/none/pool/normal: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 22
+    },
+    {
+      "label": "fastpool/none/pool/normal: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 23
+    },
+    {
+      "label": "fastpool/none/pool/normal: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 24
+    },
+    {
+      "label": "fastpool/none/pool/normal: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u100000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 26
+    },
+    {
+      "label": "fastpool/none/pool/normal: recovery response amount exact",
+      "actual": "100000",
+      "expected": "100000",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 26
+    },
+    {
+      "label": "fastpool/none/pool/normal: pool or treasury receives exact total",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 27
+    },
+    {
+      "label": "fastpool/none/pool/normal: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 28
+    },
+    {
+      "label": "fastpool/none/pool/normal: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 29
+    },
+    {
+      "label": "fastpool/none/pool/normal: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 30
+    },
+    {
+      "label": "fastpool/none/pool/normal: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 31
+    },
+    {
+      "label": "fastpool/none/pool/normal: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 32
+    },
+    {
+      "label": "fastpool/none/pool/normal: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 33
+    },
+    {
+      "label": "fastpool/none/pool/no-update: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 36
+    },
+    {
+      "label": "fastpool/none/pool/no-update: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 37
+    },
+    {
+      "label": "fastpool/none/pool/no-update: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 38
+    },
+    {
+      "label": "fastpool/none/pool/no-update: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 39
+    },
+    {
+      "label": "fastpool/none/pool/no-update: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 40
+    },
+    {
+      "label": "fastpool/none/pool/no-update: pending amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 41
+    },
+    {
+      "label": "fastpool/none/pool/no-update: live amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 42
+    },
+    {
+      "label": "fastpool/none/pool/no-update: parked amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 43
+    },
+    {
+      "label": "fastpool/none/pool/no-update: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 44
+    },
+    {
+      "label": "fastpool/none/pool/no-update: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 45
+    },
+    {
+      "label": "fastpool/none/pool/no-update: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 46
+    },
+    {
+      "label": "fastpool/none/pool/no-update: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 47
+    },
+    {
+      "label": "fastpool/none/pool/no-update: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u100000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 49
+    },
+    {
+      "label": "fastpool/none/pool/no-update: recovery response amount exact",
+      "actual": "100000",
+      "expected": "100000",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 49
+    },
+    {
+      "label": "fastpool/none/pool/no-update: pool or treasury receives exact total",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 50
+    },
+    {
+      "label": "fastpool/none/pool/no-update: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 51
+    },
+    {
+      "label": "fastpool/none/pool/no-update: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 52
+    },
+    {
+      "label": "fastpool/none/pool/no-update: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 53
+    },
+    {
+      "label": "fastpool/none/pool/no-update: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 54
+    },
+    {
+      "label": "fastpool/none/pool/no-update: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 55
+    },
+    {
+      "label": "fastpool/none/pool/no-update: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 56
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 59
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 60
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 61
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 62
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 63
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: pending amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 64
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: live amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 65
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: parked amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 66
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 67
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 68
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 69
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 70
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: pause market",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 71
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u100000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 73
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: recovery response amount exact",
+      "actual": "100000",
+      "expected": "100000",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 73
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: pool or treasury receives exact total",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 74
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 75
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 76
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 77
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 78
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 79
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 80
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: recovery leaves market paused",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 81
+    },
+    {
+      "label": "fastpool/none/pool/market-paused: unpause for next setup",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 82
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: real sBTC backs rewards",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 85
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: earned rewards + mirrored shares fixture",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 86
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: pool claims rewards",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 87
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: pool funds vault through trait",
+      "actual": "(ok u100000)",
+      "expected": "(ok u100000)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 88
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: exact funded vault balance",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 89
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: pending amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 90
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: live amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 91
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: parked amount exact",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 92
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: vault counts pending as nonempty",
+      "actual": "false",
+      "expected": "false",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 93
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: outsider cannot call emergency-recover directly",
+      "actual": "(err u16000)",
+      "expected": "(err u16000)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 94
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: fixture ages vault recovery clock",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 95
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: fixture ages pool recovery deadline",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 96
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: pause core-v6",
+      "actual": "(ok true)",
+      "expected": "(ok true)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 97
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: pool invokes zero-argument vault emergency-recover",
+      "actual": "(ok (tuple (sbtc u100000) (stx u0)))",
+      "expected": "s=>s.startsWith('(ok')",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 99
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: recovery response amount exact",
+      "actual": "100000",
+      "expected": "100000",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 99
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: pool or treasury receives exact total",
+      "actual": "u100000",
+      "expected": "u100000",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 100
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: pending cleared",
+      "actual": "none",
+      "expected": "none",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 101
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: live cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 102
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: parked cleared",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 103
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: vault balance zero",
+      "actual": "u0",
+      "expected": "u0",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 104
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: vault fully empty",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 105
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: settle after cancellation finds nothing",
+      "actual": "(err u1030)",
+      "expected": "(err u1030)",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 106
+    },
+    {
+      "label": "fastpool/none/pool/core-paused: recovery leaves core paused",
+      "actual": "true",
+      "expected": "true",
+      "passed": true,
+      "sid": "a6ba5533ce2fbb6352758ad8caadb89d",
+      "step": 107
+    }
+  ],
+  "passed": 574,
+  "total": 574,
+  "fixtures": [
+    "PoX earned reward/share fixtures backed by real fork token transfers; lock admission not exercised",
+    "Vault batch-start and fastpool settlement deadline aged by explicit Eval to keep native and Lazer pricing on real fork data",
+    "CityCoins DAO Extensions map grants only the actual vault and a sender-guarded test proposal extension",
+    "Public ladder reservation set to 49 to reach parking with one incumbent; public replacement, no market map writes"
+  ],
+  "sourceHashes": {
+    "jing-core-v6": "88a689affb23f13030953e891336af42a3f5cb275f13b3c54c79d8cd4de50697",
+    "jing-ladder-v1": "0f1e08b023272ed96a2653f727292626d4b0325dcf4e42963104d977860ec786",
+    "markets-sbtc-stx-jing-v6-3": "ed046155b017d6acad569c6769da050747f4c69db7f627e4767fe0cafea41848",
+    "swap-router-sbtc-stx-jing-v5-3": "55239afe46852df5bcc6d4c00b3b668c49336b099dfc494dc2e98ba78645961c",
+    "juice-swap-vault-trait-v2": "e6ee46a72857916f33b8d0c91a7344d62b51d303279ff9a7ea28954fe52b8093",
+    "fastpool-swap-vault": "6da89851ace1314c1d53323969a45ebb8e5818c549815710c603c6c54a72aa32",
+    "signer-manager-vault-stx-rewards": "4d9e1063c478b34fd33f3ab4f69c54a94e1b0e823149108c3c406d458556fd19"
+  }
+}
