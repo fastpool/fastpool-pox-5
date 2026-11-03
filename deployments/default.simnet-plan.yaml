@@ -164,11 +164,6 @@ plan:
   - id: 5
     transactions:
     - transaction-type: emulated-contract-publish
-      contract-name: dlmm-pool-stx-sbtc-v-2-bps-15
-      emulated-sender: SM1FKXGNZJWSTWDWXQZJNF7B5TV5ZB235JTCXYXKD
-      path: .cache/requirements/SM1FKXGNZJWSTWDWXQZJNF7B5TV5ZB235JTCXYXKD.dlmm-pool-stx-sbtc-v-2-bps-15.clar
-      clarity-version: 5
-    - transaction-type: emulated-contract-publish
       contract-name: jing-core-v2
       emulated-sender: SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22
       path: .cache/requirements/SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.jing-core-v2.clar
@@ -181,6 +176,16 @@ plan:
     epoch: '3.4'
   - id: 6
     transactions:
+    - transaction-type: emulated-contract-publish
+      contract-name: dlmm-pool-stx-sbtc-v-2-bps-15
+      emulated-sender: SM1FKXGNZJWSTWDWXQZJNF7B5TV5ZB235JTCXYXKD
+      path: .cache/requirements/SM1FKXGNZJWSTWDWXQZJNF7B5TV5ZB235JTCXYXKD.dlmm-pool-stx-sbtc-v-2-bps-15.clar
+      clarity-version: 6
+    - transaction-type: emulated-contract-publish
+      contract-name: juice-swap-vault-trait-v2
+      emulated-sender: SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22
+      path: .cache/requirements/SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.juice-swap-vault-trait-v2.clar
+      clarity-version: 6
     - transaction-type: emulated-contract-publish
       contract-name: dex-traits
       emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
@@ -217,6 +222,16 @@ plan:
       path: contracts/mock-dex-adapter.clar
       clarity-version: 6
     - transaction-type: emulated-contract-publish
+      contract-name: mock-swap-vault
+      emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+      path: contracts/mock-swap-vault.clar
+      clarity-version: 6
+    - transaction-type: emulated-contract-publish
+      contract-name: mock-swap-vault-2
+      emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+      path: contracts/mock-swap-vault.clar
+      clarity-version: 6
+    - transaction-type: emulated-contract-publish
       contract-name: price-oracle-dummy
       emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
       path: contracts/price-oracle-dummy.clar
@@ -225,5 +240,10 @@ plan:
       contract-name: price-oracle-jing
       emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
       path: contracts/price-oracle-jing.clar
+      clarity-version: 6
+    - transaction-type: emulated-contract-publish
+      contract-name: signer-manager-vault-stx-rewards
+      emulated-sender: ST1PQHQKV0RJXZFY1DGX8MNSNYVE3VGZJSRTPGZGM
+      path: contracts/signer-manager-vault-stx-rewards.clar
       clarity-version: 6
     epoch: '4.0'
