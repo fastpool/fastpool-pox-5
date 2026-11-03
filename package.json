@@ -13,7 +13,9 @@
     "test:fork": "rm -f tests/mainnet/last-run.txt && vitest run --config vitest.fork.config.ts -- --manifest ./Clarinet-mainnet.toml",
     "test:rv": "rv . fastpool-stx-rewards-signer-manager invariant",
     "test:rv:prop": "rv . fastpool-stx-rewards-signer-manager test",
-    "pdf": "node scripts/build-properties-pdf.mjs"
+    "pdf": "node scripts/build-properties-pdf.mjs",
+    "test:rv:vault": "rv . signer-manager-vault-stx-rewards invariant",
+    "test:rv:vault:prop": "rv . signer-manager-vault-stx-rewards test"
   },
   "author": "",
   "license": "ISC",

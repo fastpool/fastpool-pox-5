@@ -29,7 +29,12 @@ requirements = [
     # cannot be an RFQ client, see docs/plan-fastpool-stx-rewards.md §7 -- but
     # for its `get-native-price`, the miner-commit baseline that
     # contracts/price-oracle-jing.clar wraps.
-    {contract_id = 'SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.rfq-sbtc-stx-jing-v2-3'}
+    {contract_id = 'SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.rfq-sbtc-stx-jing-v2-3'},
+
+    # The swap-vault trait shared by Juice and FAST Pool: `juice-swap-vault-trait`
+    # v1 plus `set-pyth-fee-budget`. `signer-manager-vault-stx-rewards` uses it
+    # and `mock-swap-vault` implements it, so both bind to the deployed principal.
+    {contract_id = 'SPV9K21TBFAK4KNRJXF5DFP8N7W46G4V9RCJDC22.juice-swap-vault-trait-v2'}
 ]
 
 # `fastpool-signer-manager` targets the CANONICAL pox-5 (per-staker reward model:
@@ -105,5 +110,24 @@ epoch = "4.0"
 # Mainnet only -- it references a mainnet principal.
 [contracts.price-oracle-jing]
 path = "contracts/price-oracle-jing.clar"
+clarity_version = 6
+epoch = "4.0"
+
+# The STX-rewards signer manager that delegates the sBTC -> STX conversion to
+# an upgradeable swap vault (contracts/fastpool-swap-vault.clar, PR #1). The
+# name is load-bearing: the vault pins it as its POOL constant.
+[contracts.signer-manager-vault-stx-rewards]
+path = "contracts/signer-manager-vault-stx-rewards.clar"
+clarity_version = 6
+epoch = "4.0"
+
+# Test-only stand-ins for the swap vault. Two, so vault rotation can be tested.
+[contracts.mock-swap-vault]
+path = "contracts/mock-swap-vault.clar"
+clarity_version = 6
+epoch = "4.0"
+
+[contracts.mock-swap-vault-2]
+path = "contracts/mock-swap-vault.clar"
 clarity_version = 6
 epoch = "4.0"
